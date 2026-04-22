@@ -1,0 +1,1947 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MED·COIL — Plataforma Integral PUCE-SD × LUZ</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --indigo:#2563EB;--indigo-d:#1D4ED8;--indigo-l:#EFF6FF;--indigo-m:#BFDBFE;
+  --emerald:#059669;--emerald-l:#ECFDF5;--emerald-m:#A7F3D0;
+  --rose:#E11D48;--rose-l:#FFF1F2;--rose-m:#FECDD3;
+  --amber:#D97706;--amber-l:#FFFBEB;--amber-m:#FDE68A;
+  --violet:#7C3AED;--violet-l:#F5F3FF;--violet-m:#DDD6FE;
+  --cyan:#0891B2;--cyan-l:#ECFEFF;
+  --slate0:#F8FAFC;--slate1:#F1F5F9;--slate2:#E2E8F0;--slate3:#CBD5E1;
+  --slate4:#94A3B8;--slate5:#64748B;--slate6:#475569;--slate7:#334155;
+  --slate8:#1E293B;--slate9:#0F172A;
+  --white:#FFFFFF;--text:#0F172A;
+  --sidebar-w:260px;--header-h:64px;
+  --r-sm:8px;--r-md:12px;--r-lg:16px;--r-xl:24px;--r-2xl:32px;
+  --sh-sm:0 1px 3px rgba(0,0,0,.07);--sh-md:0 4px 16px rgba(0,0,0,.08);--sh-lg:0 12px 40px rgba(0,0,0,.12);
+  --font-head:'Instrument Serif',Georgia,serif;
+  --font-body:'DM Sans',system-ui,sans-serif;
+  --font-mono:'JetBrains Mono',monospace;
+  --ease:.2s ease;
+}
+html{font-size:16px;scroll-behavior:smooth}
+body{font-family:var(--font-body);background:var(--slate0);color:var(--text);line-height:1.6;-webkit-font-smoothing:antialiased}
+h1,h2,h3,h4{line-height:1.25;color:var(--text)}
+a{color:var(--indigo);text-decoration:none}
+input,button,select,textarea{font-family:var(--font-body)}
+ul{list-style:none}
+img{max-width:100%;display:block}
+
+/* ══ SCREEN MANAGER ══ */
+.screen{display:none}
+.screen.on{display:flex}
+
+/* ══════════ LOGIN ══════════ */
+#s-login{
+  min-height:100vh;align-items:center;justify-content:center;padding:1rem;
+  background:linear-gradient(135deg,var(--slate9) 0%,#1a2e5c 50%,var(--slate9) 100%);
+}
+.login-card{
+  background:var(--white);border-radius:var(--r-2xl);padding:2.8rem 2.4rem;
+  width:100%;max-width:440px;box-shadow:var(--sh-lg);animation:slideUp .4s ease;
+}
+@keyframes slideUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:none}}
+.login-logo{text-align:center;margin-bottom:2.2rem}
+.login-logo-icon{
+  width:68px;height:68px;background:var(--indigo);border-radius:var(--r-xl);
+  display:flex;align-items:center;justify-content:center;margin:0 auto 1rem;
+  font-size:1.8rem;color:white;font-family:var(--font-head);font-style:italic;
+}
+.login-logo h1{font-family:var(--font-head);font-size:2rem;color:var(--indigo);letter-spacing:1px;font-style:italic}
+.login-logo p{font-size:.8rem;color:var(--slate5);margin-top:2px}
+.lf-group{margin-bottom:1.1rem}
+.lf-group label{display:block;font-size:.78rem;font-weight:600;color:var(--slate7);margin-bottom:.35rem;letter-spacing:.02em;text-transform:uppercase}
+.lf-input{width:100%;padding:10px 14px;border:1.5px solid var(--slate2);border-radius:var(--r-sm);font-size:.9rem;color:var(--text);background:var(--white);transition:border-color var(--ease),box-shadow var(--ease);outline:none}
+.lf-input:focus{border-color:var(--indigo);box-shadow:0 0 0 3px rgba(37,99,235,.12)}
+.login-btn{width:100%;padding:12px;background:var(--indigo);color:white;border:none;border-radius:var(--r-sm);font-size:.95rem;font-weight:600;cursor:pointer;margin-top:.5rem;transition:opacity var(--ease),transform .1s;letter-spacing:.02em}
+.login-btn:hover{opacity:.9;transform:translateY(-1px)}
+.login-err{display:none;background:var(--rose-l);color:var(--rose);border:1px solid var(--rose-m);border-radius:var(--r-sm);padding:9px 14px;font-size:.82rem;margin-bottom:1rem}
+.login-err.on{display:block}
+.quick-accounts{margin-top:1.8rem;padding-top:1.5rem;border-top:1px solid var(--slate2)}
+.qa-label{font-size:.72rem;font-weight:700;color:var(--slate4);text-align:center;text-transform:uppercase;letter-spacing:.08em;margin-bottom:.8rem}
+.qa-chip{display:flex;align-items:center;gap:.75rem;padding:.65rem 1rem;border:1px solid var(--slate2);border-radius:var(--r-md);cursor:pointer;margin-bottom:.5rem;transition:all var(--ease)}
+.qa-chip:hover{background:var(--indigo-l);border-color:var(--indigo)}
+.qa-av{width:38px;height:38px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.8rem;font-weight:700;color:white;flex-shrink:0}
+.qa-info .name{font-size:.83rem;font-weight:600;color:var(--text)}
+.qa-info .role{font-size:.7rem;color:var(--slate5)}
+.role-badge{font-size:.62rem;font-weight:700;padding:2px 7px;border-radius:20px;display:inline-block}
+.rb-super{background:#FEF3C7;color:#92400E}
+.rb-editor{background:var(--emerald-l);color:#065F46}
+.rb-student{background:var(--indigo-l);color:var(--indigo-d)}
+
+/* ══════════ MAIN APP ══════════ */
+#s-app{flex-direction:column;min-height:100vh}
+
+/* ══ HEADER ══ */
+#topbar{
+  position:fixed;top:0;left:0;right:0;height:var(--header-h);z-index:200;
+  background:rgba(255,255,255,.95);backdrop-filter:blur(12px);
+  border-bottom:1px solid var(--slate2);
+  display:flex;align-items:center;padding:0 20px 0 16px;gap:12px;
+}
+.tb-brand{display:flex;align-items:center;gap:10px;cursor:pointer;flex-shrink:0}
+.tb-icon{width:36px;height:36px;background:var(--indigo);border-radius:10px;display:flex;align-items:center;justify-content:center;font-family:var(--font-head);font-style:italic;color:white;font-size:1rem;font-weight:400}
+.tb-title{font-size:1.05rem;font-weight:600;letter-spacing:.03em}
+.tb-title span{color:var(--indigo)}
+.tb-search{flex:1;max-width:480px;margin:0 16px;position:relative}
+.tb-search input{width:100%;padding:8px 12px 8px 36px;background:var(--slate1);border:1.5px solid var(--slate2);border-radius:10px;font-size:.85rem;outline:none;transition:all var(--ease)}
+.tb-search input:focus{background:white;border-color:var(--indigo);box-shadow:0 0 0 3px rgba(37,99,235,.1)}
+.tb-search-icon{position:absolute;left:10px;top:50%;transform:translateY(-50%);color:var(--slate4);font-size:.85rem}
+.tb-actions{margin-left:auto;display:flex;align-items:center;gap:8px}
+.tb-icon-btn{width:36px;height:36px;border:1px solid var(--slate2);border-radius:50%;background:white;display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--slate5);transition:all var(--ease);font-size:.9rem;position:relative}
+.tb-icon-btn:hover{background:var(--slate1);color:var(--indigo);border-color:var(--indigo)}
+.notif-dot{position:absolute;top:-2px;right:-2px;width:14px;height:14px;background:var(--rose);color:white;border-radius:50%;font-size:.5rem;font-weight:700;display:flex;align-items:center;justify-content:center;border:2px solid white}
+.tb-user{display:flex;align-items:center;gap:8px;padding:5px 10px;border:1px solid var(--slate2);border-radius:10px;cursor:pointer;transition:all var(--ease)}
+.tb-user:hover{background:var(--slate1);border-color:var(--indigo)}
+.tb-user-av{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.65rem;font-weight:700;color:white}
+.tb-user-name{font-size:.8rem;font-weight:600;color:var(--text)}
+.tb-view-btn{font-size:.78rem;font-weight:600;padding:6px 12px;border-radius:8px;border:1px solid var(--slate2);background:white;cursor:pointer;color:var(--slate6);transition:all var(--ease);white-space:nowrap}
+.tb-view-btn:hover{background:var(--indigo-l);color:var(--indigo);border-color:var(--indigo-m)}
+.tb-mobile-menu{display:none;background:none;border:none;cursor:pointer;color:var(--slate6);font-size:1.1rem;padding:4px;border-radius:6px}
+.tb-mobile-menu:hover{background:var(--slate1)}
+
+/* ══ LAYOUT ══ */
+.app-body{display:flex;padding-top:var(--header-h);min-height:100vh}
+
+/* ══ SIDEBAR ══ */
+.sidebar{
+  width:var(--sidebar-w);background:white;position:fixed;top:var(--header-h);left:0;
+  height:calc(100vh - var(--header-h));z-index:100;border-right:1px solid var(--slate2);
+  display:flex;flex-direction:column;overflow-y:auto;transition:transform var(--ease);
+}
+.sidebar-user{padding:16px;border-bottom:1px solid var(--slate2);display:flex;align-items:center;gap:10px}
+.su-av{width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.85rem;font-weight:700;color:white;flex-shrink:0}
+.su-info{flex:1;min-width:0}
+.su-name{font-size:.8rem;font-weight:600;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.su-role{font-size:.68rem;color:var(--slate5)}
+.sidebar-nav{padding:12px 8px;flex:1}
+.nav-section{font-size:.62rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--slate4);padding:8px 12px 4px;margin-top:4px}
+.nav-item{display:flex;align-items:center;gap:10px;padding:9px 12px;border-radius:10px;cursor:pointer;font-size:.85rem;color:var(--slate6);transition:all var(--ease);position:relative;border:none;background:none;width:100%;text-align:left}
+.nav-item:hover{background:var(--slate1);color:var(--text)}
+.nav-item.active{background:var(--indigo-l);color:var(--indigo);font-weight:600}
+.nav-item .ni-icon{width:20px;text-align:center;font-size:.9rem;flex-shrink:0}
+.nav-badge{margin-left:auto;background:var(--rose);color:white;font-size:.6rem;font-weight:700;padding:1px 6px;border-radius:20px}
+.nav-divider{height:1px;background:var(--slate2);margin:8px 12px}
+.sidebar-footer{padding:12px;border-top:1px solid var(--slate2)}
+.sf-version{font-size:.68rem;color:var(--slate4);text-align:center}
+
+/* ══ CONTENT ══ */
+.main-content{margin-left:var(--sidebar-w);flex:1;padding:28px}
+
+/* ══ PAGES ══ */
+.page{display:none;animation:pageIn .25s ease}
+.page.active{display:block}
+@keyframes pageIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.page-header{display:flex;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-bottom:28px}
+.page-header h2{font-family:var(--font-head);font-size:1.75rem;font-style:italic;color:var(--text);margin-bottom:3px}
+.page-header h2 span{color:var(--indigo)}
+.page-header p{font-size:.85rem;color:var(--slate5)}
+.ph-actions{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+
+/* ══ BUTTONS ══ */
+.btn{display:inline-flex;align-items:center;gap:6px;padding:9px 18px;border-radius:var(--r-sm);font-size:.85rem;font-weight:600;cursor:pointer;border:none;transition:all var(--ease);white-space:nowrap;font-family:var(--font-body)}
+.btn-primary{background:var(--indigo);color:white}
+.btn-primary:hover{background:var(--indigo-d);transform:translateY(-1px)}
+.btn-success{background:var(--emerald);color:white}
+.btn-success:hover{background:#047857;transform:translateY(-1px)}
+.btn-danger{background:var(--rose);color:white}
+.btn-outline{background:transparent;color:var(--indigo);border:1.5px solid var(--indigo)}
+.btn-outline:hover{background:var(--indigo-l)}
+.btn-ghost{background:transparent;color:var(--slate6);border:1px solid var(--slate2)}
+.btn-ghost:hover{background:var(--slate1);color:var(--text)}
+.btn-sm{padding:6px 12px;font-size:.78rem}
+.btn-lg{padding:12px 24px;font-size:.95rem}
+.btn:disabled{opacity:.45;cursor:not-allowed;transform:none!important}
+
+/* ══ CARDS ══ */
+.card{background:white;border:1px solid var(--slate2);border-radius:var(--r-lg);box-shadow:var(--sh-sm)}
+.card-hd{padding:16px 20px;border-bottom:1px solid var(--slate2);display:flex;align-items:center;justify-content:space-between;gap:12px}
+.card-title{font-size:.92rem;font-weight:600;color:var(--text);display:flex;align-items:center;gap:8px}
+.card-title-icon{color:var(--indigo)}
+.card-body{padding:20px}
+.card-ft{padding:12px 20px;border-top:1px solid var(--slate2)}
+
+/* ══ GRIDS ══ */
+.g2{display:grid;grid-template-columns:repeat(2,1fr);gap:20px}
+.g3{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.g4{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+
+/* ══ STAT CARDS ══ */
+.stat-card{background:white;border:1px solid var(--slate2);border-radius:var(--r-lg);padding:18px;display:flex;align-items:center;gap:14px;box-shadow:var(--sh-sm);transition:all var(--ease)}
+.stat-card:hover{box-shadow:var(--sh-md);transform:translateY(-2px)}
+.sc-icon{width:50px;height:50px;border-radius:var(--r-md);display:flex;align-items:center;justify-content:center;font-size:1.25rem;flex-shrink:0}
+.sc-label{font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--slate4);margin-bottom:2px}
+.sc-value{font-size:1.75rem;font-weight:700;color:var(--text);line-height:1;font-family:var(--font-head)}
+.sc-change{font-size:.72rem;margin-top:3px;font-weight:600}
+.sc-up{color:var(--emerald)}.sc-info{color:var(--indigo)}
+.ic-blue{background:var(--indigo-l);color:var(--indigo)}
+.ic-green{background:var(--emerald-l);color:var(--emerald)}
+.ic-amber{background:var(--amber-l);color:var(--amber)}
+.ic-purple{background:var(--violet-l);color:var(--violet)}
+.ic-rose{background:var(--rose-l);color:var(--rose)}
+.ic-cyan{background:var(--cyan-l);color:var(--cyan)}
+
+/* ══ BADGES ══ */
+.badge{display:inline-flex;align-items:center;font-size:.68rem;font-weight:700;padding:2px 9px;border-radius:20px}
+.b-primary{background:var(--indigo-l);color:var(--indigo-d)}
+.b-success{background:var(--emerald-l);color:#065F46}
+.b-warning{background:var(--amber-l);color:#92400E}
+.b-danger{background:var(--rose-l);color:#9F1239}
+.b-purple{background:var(--violet-l);color:#5B21B6}
+.b-cyan{background:var(--cyan-l);color:#164E63}
+.b-gray{background:var(--slate1);color:var(--slate6)}
+
+/* ══ TABLE ══ */
+.tbl-wrap{overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:.84rem}
+thead tr{background:var(--slate1)}
+th{padding:10px 14px;text-align:left;font-weight:700;font-size:.68rem;text-transform:uppercase;letter-spacing:.06em;color:var(--slate5);border-bottom:1px solid var(--slate2);white-space:nowrap}
+td{padding:13px 14px;border-bottom:1px solid var(--slate2);color:var(--text);vertical-align:middle}
+tbody tr{transition:background var(--ease)}
+tbody tr:hover{background:var(--slate0)}
+tbody tr:last-child td{border-bottom:none}
+
+/* ══ FORMS ══ */
+.f-group{margin-bottom:14px}
+.f-group label{display:block;font-size:.78rem;font-weight:600;color:var(--slate7);margin-bottom:5px;text-transform:uppercase;letter-spacing:.03em}
+.f-group label .req{color:var(--rose);margin-left:2px}
+.f-ctrl{width:100%;padding:9px 12px;border:1.5px solid var(--slate2);border-radius:var(--r-sm);font-size:.88rem;color:var(--text);background:white;transition:border-color var(--ease),box-shadow var(--ease);outline:none}
+.f-ctrl:focus{border-color:var(--indigo);box-shadow:0 0 0 3px rgba(37,99,235,.1)}
+textarea.f-ctrl{resize:vertical;min-height:90px}
+.f-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.f-hint{font-size:.72rem;color:var(--slate4);margin-top:4px}
+
+/* ══ PROGRESS ══ */
+.prog-track{background:var(--slate2);border-radius:20px;height:7px;overflow:hidden}
+.prog-fill{height:100%;border-radius:20px;background:linear-gradient(90deg,var(--indigo),var(--emerald));transition:width .6s ease}
+
+/* ══ TABS ══ */
+.tabs{display:flex;border-bottom:2px solid var(--slate2);margin-bottom:20px;overflow-x:auto;gap:2px}
+.tab-btn{padding:9px 16px;border:none;border-bottom:2px solid transparent;margin-bottom:-2px;font-size:.84rem;font-weight:600;color:var(--slate5);cursor:pointer;background:none;white-space:nowrap;transition:all var(--ease)}
+.tab-btn:hover{color:var(--indigo)}
+.tab-btn.active{color:var(--indigo);border-bottom-color:var(--indigo)}
+.tab-pane{display:none}
+.tab-pane.active{display:block}
+
+/* ══ MEDIA GRID ══ */
+.media-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:12px}
+.media-card{background:white;border:1px solid var(--slate2);border-radius:var(--r-md);overflow:hidden;cursor:pointer;transition:all var(--ease)}
+.media-card:hover{box-shadow:var(--sh-md);transform:translateY(-2px);border-color:var(--indigo-m)}
+.media-thumb{height:100px;display:flex;align-items:center;justify-content:center;font-size:2.2rem;background:var(--slate1)}
+.media-info{padding:8px;border-top:1px solid var(--slate2)}
+.media-name{font-size:.74rem;font-weight:600;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-bottom:3px}
+.media-meta{font-size:.65rem;color:var(--slate4);display:flex;justify-content:space-between}
+.media-acts{display:flex;gap:4px;padding:6px 8px;border-top:1px solid var(--slate2)}
+.media-acts button{flex:1;background:none;border:none;cursor:pointer;font-size:.7rem;color:var(--slate4);padding:3px;border-radius:4px;transition:all var(--ease)}
+.media-acts button:hover{background:var(--slate1);color:var(--indigo)}
+.media-acts button.del:hover{color:var(--rose)}
+
+/* ══ UPLOAD ZONE ══ */
+.upload-zone{border:2px dashed var(--slate3);border-radius:var(--r-lg);padding:2.5rem 1.5rem;text-align:center;cursor:pointer;transition:all var(--ease);background:var(--slate0)}
+.upload-zone:hover,.upload-zone.drag{border-color:var(--indigo);background:var(--indigo-l)}
+.upload-zone input[type="file"]{display:none}
+.uz-icon{font-size:2.5rem;margin-bottom:1rem;color:var(--indigo)}
+.uz-title{font-size:.95rem;font-weight:600;margin-bottom:4px}
+.uz-sub{font-size:.8rem;color:var(--slate5)}
+
+/* ══ EDITOR ══ */
+.editor-bar{display:flex;flex-wrap:wrap;gap:3px;padding:8px;background:var(--slate1);border:1.5px solid var(--slate2);border-bottom:none;border-radius:var(--r-sm) var(--r-sm) 0 0}
+.ebar-btn{width:30px;height:30px;border:1px solid var(--slate2);border-radius:5px;background:white;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:.8rem;color:var(--slate5);transition:all var(--ease)}
+.ebar-btn:hover{background:var(--indigo);color:white;border-color:var(--indigo)}
+.ebar-div{width:1px;background:var(--slate3);margin:2px 4px;align-self:stretch}
+.editor-area{min-height:280px;border:1.5px solid var(--slate2);border-top:none;border-radius:0 0 var(--r-sm) var(--r-sm);padding:14px 16px;font-size:.9rem;line-height:1.7;outline:none;background:white;color:var(--text)}
+.editor-area:focus{border-color:var(--indigo)}
+.editor-area img{max-width:100%;border-radius:var(--r-sm);margin:.5rem 0}
+.editor-area iframe{width:100%;aspect-ratio:16/9;border:none;border-radius:var(--r-sm);margin:1rem 0}
+
+/* ══ FOROS ══ */
+.thread{border:1px solid var(--slate2);border-radius:var(--r-md);margin-bottom:10px;overflow:hidden;background:white}
+.thread-hd{padding:13px 16px;display:flex;align-items:center;justify-content:space-between;cursor:pointer;background:var(--slate1)}
+.thread-hd:hover{background:var(--slate2)}
+.thread-body{display:none;padding:14px 16px;border-top:1px solid var(--slate2)}
+.thread-body.open{display:block}
+.reply{display:flex;gap:10px;margin-top:12px;padding-top:12px;border-top:1px dashed var(--slate2)}
+.reply-content{background:var(--slate0);padding:10px 12px;border-radius:var(--r-sm);flex:1;font-size:.85rem}
+
+/* ══ QUIZ ══ */
+.quiz-box{max-width:600px;margin:0 auto}
+.quiz-q{font-family:var(--font-head);font-size:1.15rem;color:var(--text);margin-bottom:8px;line-height:1.4;font-style:italic}
+.quiz-ctx{font-size:.84rem;color:var(--slate6);padding:10px 14px;background:var(--indigo-l);border-left:3px solid var(--indigo);border-radius:0 var(--r-sm) var(--r-sm) 0;margin-bottom:20px;line-height:1.6}
+.quiz-opts{display:flex;flex-direction:column;gap:8px;margin-bottom:18px}
+.qopt{padding:12px 16px;border:1.5px solid var(--slate2);border-radius:var(--r-md);background:white;font-size:.87rem;color:var(--text);cursor:pointer;transition:all var(--ease);text-align:left}
+.qopt:hover:not(:disabled){border-color:var(--indigo);background:var(--indigo-l)}
+.qopt.correct{border-color:var(--emerald);background:var(--emerald-l);color:#065F46}
+.qopt.wrong{border-color:var(--rose);background:var(--rose-l);color:#9F1239}
+.qopt:disabled{cursor:not-allowed}
+.quiz-fb{padding:12px 14px;border-radius:var(--r-sm);font-size:.84rem;line-height:1.6;display:none;margin-bottom:16px}
+.quiz-fb.show{display:block}
+.quiz-fb.ok{background:var(--emerald-l);color:#065F46;border:1px solid var(--emerald-m)}
+.quiz-fb.err{background:var(--rose-l);color:#9F1239;border:1px solid var(--rose-m)}
+.quiz-nav{display:flex;align-items:center;justify-content:space-between}
+.quiz-counter{font-size:.78rem;color:var(--slate4);font-family:var(--font-mono)}
+
+/* ══ GAMIFICATION ══ */
+.xp-card{background:linear-gradient(135deg,var(--indigo) 0%,var(--violet) 100%);color:white;border-radius:var(--r-xl);padding:24px;position:relative;overflow:hidden}
+.xp-card::before{content:'';position:absolute;top:-30px;right:-30px;width:160px;height:160px;border-radius:50%;background:rgba(255,255,255,.08)}
+.xp-level{font-size:.75rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;opacity:.75;margin-bottom:6px}
+.xp-name{font-family:var(--font-head);font-size:1.6rem;font-style:italic;margin-bottom:14px}
+.xp-bar-track{background:rgba(255,255,255,.2);border-radius:20px;height:8px;margin-bottom:8px}
+.xp-bar-fill{height:100%;border-radius:20px;background:white;transition:width .8s ease}
+.xp-meta{font-size:.75rem;opacity:.75;display:flex;justify-content:space-between}
+.badge-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(80px,1fr));gap:10px;margin-top:14px}
+.badge-item{background:white;border:1px solid var(--slate2);border-radius:var(--r-md);padding:12px 8px;text-align:center;transition:all var(--ease)}
+.badge-item:hover{box-shadow:var(--sh-md);transform:translateY(-2px)}
+.badge-item .bi-icon{font-size:1.6rem;margin-bottom:6px}
+.badge-item .bi-name{font-size:.68rem;font-weight:700;color:var(--slate6);line-height:1.3}
+.badge-item.locked{opacity:.4;filter:grayscale(1)}
+
+/* ══ TOGGLE ══ */
+.toggle-row{display:flex;align-items:center;gap:12px;padding:12px 14px;border-radius:var(--r-md);background:var(--slate0);border:1px solid var(--slate2);margin-bottom:10px;cursor:pointer;transition:all var(--ease)}
+.toggle-row:hover{border-color:var(--indigo-m);background:var(--indigo-l)}
+.toggle{width:42px;height:22px;background:var(--slate3);border-radius:20px;position:relative;flex-shrink:0;transition:background var(--ease)}
+.toggle::after{content:'';position:absolute;width:16px;height:16px;background:white;border-radius:50%;top:3px;left:3px;transition:transform var(--ease);box-shadow:0 1px 3px rgba(0,0,0,.2)}
+.toggle.on{background:var(--emerald)}
+.toggle.on::after{transform:translateX(20px)}
+.tg-info .tg-title{font-size:.84rem;font-weight:600;color:var(--text)}
+.tg-info .tg-desc{font-size:.74rem;color:var(--slate5)}
+
+/* ══ AVATAR ══ */
+.av{border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;color:white;flex-shrink:0}
+.av-sm{width:28px;height:28px;font-size:.62rem}
+.av-md{width:36px;height:36px;font-size:.75rem}
+.av-lg{width:48px;height:48px;font-size:.95rem}
+
+/* ══ COIL SPACE ══ */
+.coil-hero{background:linear-gradient(135deg,var(--slate9) 0%,#1a3070 100%);color:white;border-radius:var(--r-xl);padding:32px;margin-bottom:24px;position:relative;overflow:hidden}
+.coil-hero::after{content:'';position:absolute;right:-40px;bottom:-40px;width:200px;height:200px;border-radius:50%;background:rgba(37,99,235,.25)}
+.coil-eyebrow{font-size:.72rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.6);margin-bottom:10px}
+.coil-hero h2{font-family:var(--font-head);font-size:1.8rem;font-style:italic;margin-bottom:10px}
+.coil-hero p{font-size:.88rem;color:rgba(255,255,255,.75);max-width:540px;line-height:1.65}
+.coil-badges{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}
+.coil-badge{font-size:.72rem;font-weight:600;padding:4px 12px;border-radius:20px;border:1px solid rgba(255,255,255,.25);color:rgba(255,255,255,.85)}
+
+/* ══ STUDENT DASHBOARD ══ */
+.welcome-card{background:var(--indigo);color:white;border-radius:var(--r-xl);padding:28px 32px;position:relative;overflow:hidden;margin-bottom:24px}
+.welcome-card::before{content:'';position:absolute;top:-40px;right:-40px;width:200px;height:200px;border-radius:50%;background:rgba(255,255,255,.08)}
+.wc-greeting{font-size:.82rem;font-weight:600;letter-spacing:.06em;text-transform:uppercase;opacity:.75;margin-bottom:6px}
+.wc-name{font-family:var(--font-head);font-size:2rem;font-style:italic;margin-bottom:8px}
+.wc-sub{font-size:.88rem;opacity:.8;max-width:480px;line-height:1.6}
+.wc-ctas{margin-top:18px;display:flex;gap:10px;flex-wrap:wrap}
+.wc-btn{padding:9px 20px;border-radius:8px;font-size:.82rem;font-weight:600;cursor:pointer;border:none;transition:all var(--ease)}
+.wc-btn-primary{background:white;color:var(--indigo)}
+.wc-btn-primary:hover{opacity:.9}
+.wc-btn-outline{background:transparent;color:white;border:1px solid rgba(255,255,255,.4)}
+.wc-btn-outline:hover{background:rgba(255,255,255,.1)}
+
+/* ══ TOAST ══ */
+#toasts{position:fixed;bottom:20px;right:20px;z-index:9999;display:flex;flex-direction:column;gap:8px;pointer-events:none}
+.toast{background:var(--slate9);color:white;padding:10px 16px;border-radius:var(--r-sm);font-size:.84rem;display:flex;align-items:center;gap:10px;max-width:320px;pointer-events:auto;animation:toastIn .3s ease,toastOut .3s ease 2.7s forwards;box-shadow:var(--sh-lg)}
+.toast.success{border-left:3px solid var(--emerald)}
+.toast.error{border-left:3px solid var(--rose)}
+.toast.info{border-left:3px solid var(--indigo)}
+.toast.warning{border-left:3px solid var(--amber)}
+@keyframes toastIn{from{opacity:0;transform:translateX(100%)}to{opacity:1;transform:none}}
+@keyframes toastOut{to{opacity:0;transform:translateX(110%)}}
+
+/* ══ MODAL ══ */
+.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:9000;align-items:center;justify-content:center;padding:16px;backdrop-filter:blur(4px)}
+.modal-overlay.open{display:flex}
+.modal{background:white;border-radius:var(--r-xl);width:100%;max-width:540px;max-height:88vh;overflow-y:auto;box-shadow:var(--sh-lg);animation:modalIn .25s ease}
+.modal-lg{max-width:720px}
+@keyframes modalIn{from{opacity:0;transform:scale(.95) translateY(10px)}to{opacity:1;transform:none}}
+.modal-hd{padding:18px 22px;border-bottom:1px solid var(--slate2);display:flex;align-items:center;justify-content:space-between}
+.modal-hd h3{font-size:1.05rem;font-weight:600;display:flex;align-items:center;gap:8px}
+.modal-close{width:30px;height:30px;border:none;background:var(--slate1);border-radius:50%;cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--slate5);font-size:.85rem;transition:all var(--ease)}
+.modal-close:hover{background:var(--rose-l);color:var(--rose)}
+.modal-body{padding:22px}
+.modal-ft{padding:14px 22px;border-top:1px solid var(--slate2);display:flex;gap:10px;justify-content:flex-end}
+
+/* ══ PROFILE ══ */
+.profile-banner{background:linear-gradient(135deg,var(--indigo),var(--violet));height:140px;border-radius:var(--r-xl) var(--r-xl) 0 0;position:relative}
+.profile-av{width:80px;height:80px;border-radius:50%;border:4px solid white;position:absolute;bottom:-40px;left:28px;font-size:1.5rem;font-weight:700;color:white;display:flex;align-items:center;justify-content:center}
+.profile-info{padding:52px 28px 28px}
+.profile-name{font-family:var(--font-head);font-size:1.5rem;font-style:italic;margin-bottom:4px}
+.profile-role{font-size:.85rem;color:var(--slate5)}
+.profile-stats{display:flex;gap:24px;margin-top:14px;padding-top:14px;border-top:1px solid var(--slate2)}
+.pstat{text-align:center}
+.pstat-n{font-size:1.4rem;font-weight:700;color:var(--indigo)}
+.pstat-l{font-size:.72rem;color:var(--slate4);text-transform:uppercase;letter-spacing:.05em}
+
+/* ══ ANNOUNCEMENTS ══ */
+.annc-card{background:white;border:1px solid var(--slate2);border-radius:var(--r-lg);padding:18px 20px;margin-bottom:12px;border-left:3px solid var(--indigo)}
+.annc-hd{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:8px}
+.annc-title{font-size:.92rem;font-weight:600;color:var(--text)}
+.annc-body{font-size:.84rem;color:var(--slate5);line-height:1.65}
+.annc-meta{font-size:.72rem;color:var(--slate4);margin-top:8px}
+
+/* ══ CALENDAR ══ */
+.cal-event{background:var(--indigo-l);border-left:3px solid var(--indigo);border-radius:0 var(--r-sm) var(--r-sm) 0;padding:10px 14px;margin-bottom:10px;cursor:pointer;transition:all var(--ease)}
+.cal-event:hover{background:var(--indigo-m)}
+.cal-date{font-size:.72rem;font-weight:700;color:var(--indigo);text-transform:uppercase;letter-spacing:.06em;margin-bottom:3px}
+.cal-title{font-size:.88rem;font-weight:600;color:var(--text);margin-bottom:2px}
+.cal-meta{font-size:.75rem;color:var(--slate5)}
+
+/* ══ CASES/ABP ══ */
+.case-card{background:white;border:1px solid var(--slate2);border-radius:var(--r-lg);padding:20px;margin-bottom:14px;transition:all var(--ease);cursor:pointer}
+.case-card:hover{box-shadow:var(--sh-md);border-color:var(--indigo-m)}
+.case-type{font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;padding:3px 10px;border-radius:20px;display:inline-block;margin-bottom:10px}
+.ct-abp{background:var(--emerald-l);color:#065F46}
+.ct-osce{background:var(--violet-l);color:#5B21B6}
+.ct-imagen{background:var(--amber-l);color:#92400E}
+.case-card h4{font-family:var(--font-head);font-size:1rem;font-style:italic;margin-bottom:6px}
+.case-card p{font-size:.83rem;color:var(--slate5);line-height:1.6}
+.case-footer{display:flex;align-items:center;justify-content:space-between;margin-top:12px;padding-top:12px;border-top:1px solid var(--slate2)}
+
+/* ══ CHAT AI ══ */
+.chat-log{height:200px;overflow-y:auto;background:var(--slate0);border-radius:var(--r-md);padding:14px;margin-bottom:12px}
+.chat-msg{margin-bottom:10px;font-size:.84rem;line-height:1.6}
+.chat-msg.bot{color:var(--slate7)}
+.chat-msg.user{text-align:right;color:var(--indigo)}
+.chat-msg strong{color:var(--text)}
+.chat-input-row{display:flex;gap:8px}
+
+/* ══ ANALYTICS ══ */
+.metric-mini{background:white;border:1px solid var(--slate2);border-radius:var(--r-md);padding:14px;text-align:center}
+.mm-val{font-size:1.6rem;font-weight:700;color:var(--indigo)}
+.mm-lbl{font-size:.72rem;color:var(--slate4);font-weight:600;text-transform:uppercase;letter-spacing:.05em;margin-top:3px}
+
+/* ══ UTILS ══ */
+.mb1{margin-bottom:.5rem}.mb2{margin-bottom:1rem}.mb3{margin-bottom:1.5rem}.mb4{margin-bottom:2rem}
+.mt1{margin-top:.5rem}.mt2{margin-top:1rem}.mt3{margin-top:1.5rem}
+.flex{display:flex}.align-c{align-items:center}.just-b{justify-content:space-between}.flex-wrap{flex-wrap:wrap}
+.gap1{gap:.5rem}.gap2{gap:1rem}
+.text-muted{color:var(--slate5);font-size:.84rem}
+.text-sm{font-size:.8rem}
+.fw6{font-weight:600}.fw7{font-weight:700}
+.w100{width:100%}
+.sep{height:1px;background:var(--slate2);margin:16px 0}
+.color-dot{width:10px;height:10px;border-radius:50%;display:inline-block;flex-shrink:0}
+
+/* ══ RESPONSIVE ══ */
+@media(max-width:768px){
+  .sidebar{transform:translateX(-100%)}
+  .sidebar.open{transform:none}
+  .main-content{margin-left:0}
+  .g2,.g3,.g4{grid-template-columns:1fr}
+  .f-row{grid-template-columns:1fr}
+  .tb-search{display:none}
+  .tb-mobile-menu{display:block}
+  .tb-view-btn{display:none}
+}
+</style>
+</head>
+<body>
+
+<!-- TOAST CONTAINER -->
+<div id="toasts" aria-live="polite"></div>
+
+<!-- ══════════════════════════ LOGIN ══════════════════════════ -->
+<div id="s-login" class="screen on">
+  <div class="login-card">
+    <div class="login-logo">
+      <div class="login-logo-icon">M</div>
+      <h1>MED·COIL</h1>
+      <p>Plataforma Integral PUCE-SD × LUZ · v3.0</p>
+    </div>
+    <div class="login-err" id="loginErr">⚠ Credenciales incorrectas. Intenta de nuevo.</div>
+    <form onsubmit="doLogin(event)">
+      <div class="lf-group"><label for="le">Correo Electrónico</label><input type="email" id="le" class="lf-input" placeholder="usuario@institucion.edu.ec" required autocomplete="email"></div>
+      <div class="lf-group"><label for="lp">Contraseña</label><input type="password" id="lp" class="lf-input" placeholder="••••••••" required autocomplete="current-password"></div>
+      <button type="submit" class="login-btn">Iniciar Sesión →</button>
+    </form>
+    <div class="quick-accounts">
+      <div class="qa-label">Acceso Rápido de Demostración</div>
+      <div class="qa-chip" onclick="quickLogin('gnguida@pucesd.edu.ec')">
+        <div class="qa-av" style="background:linear-gradient(135deg,#2563EB,#059669)">GN</div>
+        <div class="qa-info"><div class="name">Guido Nino Guida Acevedo</div><div class="role">PUCE-SD · <span class="role-badge rb-super">SUPER ADMIN</span></div></div>
+      </div>
+      <div class="qa-chip" onclick="quickLogin('j.linares@luz.edu.ve')">
+        <div class="qa-av" style="background:linear-gradient(135deg,#7C3AED,#059669)">JL</div>
+        <div class="qa-info"><div class="name">Dr. Johan Linares</div><div class="role">LUZ · <span class="role-badge rb-editor">EDITOR</span></div></div>
+      </div>
+      <div class="qa-chip" onclick="quickLogin('a.garcia@estudiante.luz.edu.ve')">
+        <div class="qa-av" style="background:linear-gradient(135deg,#0891B2,#7C3AED)">AG</div>
+        <div class="qa-info"><div class="name">Ana García Montiel</div><div class="role">LUZ · <span class="role-badge rb-student">ESTUDIANTE</span></div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════ MAIN APP ══════════════════════════ -->
+<div id="s-app" class="screen">
+
+  <!-- HEADER -->
+  <header id="topbar">
+    <button class="tb-mobile-menu" onclick="toggleSidebar()">☰</button>
+    <div class="tb-brand" onclick="goHome()">
+      <div class="tb-icon">M</div>
+      <span class="tb-title">MED·<span>COIL</span></span>
+    </div>
+    <div class="tb-search">
+      <span class="tb-search-icon">🔍</span>
+      <input type="search" placeholder="Buscar módulos, casos, recursos..." id="globalSearch" oninput="handleSearch(this.value)">
+    </div>
+    <div class="tb-actions">
+      <button class="tb-view-btn" id="viewToggleBtn" onclick="toggleView()">👁 Vista Estudiante</button>
+      <button class="tb-icon-btn" onclick="toast('3 notificaciones pendientes','info')" title="Notificaciones">
+        🔔<span class="notif-dot">3</span>
+      </button>
+      <div class="tb-user" onclick="navTo('profile')" id="headerUser">
+        <div class="tb-user-av" id="headerAv"></div>
+        <span class="tb-user-name" id="headerName"></span>
+      </div>
+    </div>
+  </header>
+
+  <div class="app-body">
+    <!-- SIDEBAR -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-user" id="sidebarUser">
+        <div class="su-av av av-md" id="suAv"></div>
+        <div class="su-info"><div class="su-name" id="suName"></div><div class="su-role" id="suRole"></div></div>
+      </div>
+      <nav class="sidebar-nav" id="sidebarNav"></nav>
+      <div class="sidebar-footer"><div class="sf-version">© 2026 MED-COIL · PUCE-SD × LUZ</div></div>
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <main class="main-content" id="mainContent">
+
+      <!-- ════ ADMIN DASHBOARD ════ -->
+      <div id="p-admin-dashboard" class="page">
+        <div class="page-header">
+          <div><h2>Panel de <span>Control</span></h2><p id="dashWelcome"></p></div>
+          <div class="ph-actions">
+            <button class="btn btn-ghost btn-sm">📥 Reporte</button>
+            <button class="btn btn-primary" onclick="openModal('m-new-content')">+ Nuevo Contenido</button>
+          </div>
+        </div>
+        <!-- Announcement Banner -->
+        <div style="background:var(--indigo);color:white;border-radius:var(--r-xl);padding:24px 28px;margin-bottom:24px;display:flex;align-items:center;gap:20px;position:relative;overflow:hidden">
+          <div style="position:absolute;right:-30px;top:-30px;width:140px;height:140px;border-radius:50%;background:rgba(255,255,255,.08)"></div>
+          <div style="font-size:2rem;flex-shrink:0">📢</div>
+          <div style="flex:1">
+            <div style="font-size:.75rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;opacity:.7;margin-bottom:4px">Novedad v3.0</div>
+            <div style="font-size:1rem;font-weight:600;margin-bottom:4px">MED-COIL v3.0 ACTIVA — Editor de diapositivas + Foros en tiempo real + IA Tutor Genflow</div>
+            <div style="font-size:.84rem;opacity:.8">Todos los módulos, evaluaciones y el espacio COIL están operativos para ambas instituciones.</div>
+          </div>
+          <button class="btn btn-sm" style="background:white;color:var(--indigo);flex-shrink:0" onclick="navTo('admin-modules')">Explorar →</button>
+        </div>
+        <div class="g4 mb3">
+          <div class="stat-card"><div class="sc-icon ic-blue">👥</div><div><div class="sc-label">Estudiantes</div><div class="sc-value">847</div><div class="sc-change sc-up">↑ +12% este mes</div></div></div>
+          <div class="stat-card"><div class="sc-icon ic-green">📚</div><div><div class="sc-label">Módulos</div><div class="sc-value">24</div><div class="sc-change sc-info">3 nuevos</div></div></div>
+          <div class="stat-card"><div class="sc-icon ic-amber">🎬</div><div><div class="sc-label">Videos</div><div class="sc-value">156</div><div class="sc-change sc-up">↑ 8 esta semana</div></div></div>
+          <div class="stat-card"><div class="sc-icon ic-purple">🌐</div><div><div class="sc-label">Actividades COIL</div><div class="sc-value">18</div><div class="sc-change sc-info">6 en progreso</div></div></div>
+        </div>
+        <div class="g2">
+          <div class="card">
+            <div class="card-hd"><div class="card-title"><span class="card-title-icon">📋</span> Actividad Reciente</div></div>
+            <div class="tbl-wrap"><table><thead><tr><th>Acción</th><th>Usuario</th><th>Hora</th><th>Estado</th></tr></thead><tbody id="activityTbody"></tbody></table></div>
+          </div>
+          <div class="card">
+            <div class="card-hd"><div class="card-title"><span class="card-title-icon">📊</span> Estado de Contenido</div></div>
+            <div class="card-body" id="contentStatus"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ════ ADMIN MODULES ════ -->
+      <div id="p-admin-modules" class="page">
+        <div class="page-header">
+          <div><h2>Módulos <span>Académicos</span></h2><p>Gestión y edición del currículo médico integrado PUCE-SD × LUZ</p></div>
+          <div class="ph-actions">
+            <button class="btn btn-ghost btn-sm">⇅ Reordenar</button>
+            <button class="btn btn-primary" onclick="openModal('m-new-module')">+ Nuevo Módulo</button>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-hd">
+            <div class="card-title">📚 Todos los Módulos</div>
+            <input type="search" class="f-ctrl" style="width:200px" placeholder="Buscar..." oninput="filterTable(this,'modulesTable')">
+          </div>
+          <div class="tbl-wrap"><table id="modulesTable"><thead><tr><th>#</th><th>Módulo</th><th>Categoría</th><th>Lecciones</th><th>Estado</th><th>Autor</th><th>Acciones</th></tr></thead><tbody id="modulesTbody"></tbody></table></div>
+        </div>
+      </div>
+
+      <!-- ════ ADMIN EDITOR ════ -->
+      <div id="p-admin-editor" class="page">
+        <div class="page-header">
+          <div><h2>Editor de <span>Lecciones</span></h2><p>Crea contenido con texto enriquecido, videos, imágenes y tablas</p></div>
+          <div class="ph-actions">
+            <button class="btn btn-ghost btn-sm" onclick="toast('Guardado como borrador','success')">💾 Borrador</button>
+            <button class="btn btn-success" onclick="publishLesson()">🌐 Publicar</button>
+          </div>
+        </div>
+        <div class="card mb2">
+          <div class="card-hd"><div class="card-title">✏️ Editor de Lección</div><select class="f-ctrl" style="width:200px" id="editorModSel"></select></div>
+          <div class="card-body">
+            <div class="f-group mb2"><label>Título <span class="req">*</span></label><input type="text" id="lessonTitle" class="f-ctrl" placeholder="Ej: Anatomía Funcional del Sistema Cardiovascular"></div>
+            <div class="f-group">
+              <label>Contenido <span class="req">*</span></label>
+              <div class="editor-bar">
+                <button class="ebar-btn" onclick="ec('bold')" title="Negrita"><b>B</b></button>
+                <button class="ebar-btn" onclick="ec('italic')" title="Cursiva"><i>I</i></button>
+                <button class="ebar-btn" onclick="ec('underline')" title="Subrayado"><u>U</u></button>
+                <div class="ebar-div"></div>
+                <button class="ebar-btn" onclick="ef('h2')" title="H2"><b>H2</b></button>
+                <button class="ebar-btn" onclick="ef('h3')" title="H3"><b>H3</b></button>
+                <div class="ebar-div"></div>
+                <button class="ebar-btn" onclick="ec('insertUnorderedList')" title="Lista">•</button>
+                <button class="ebar-btn" onclick="ec('insertOrderedList')" title="Lista Num.">1.</button>
+                <div class="ebar-div"></div>
+                <button class="ebar-btn" onclick="eLink()" title="Enlace">🔗</button>
+                <button class="ebar-btn" onclick="openModal('m-insert-video')" title="Video">▶</button>
+                <button class="ebar-btn" onclick="openModal('m-insert-img')" title="Imagen">🖼</button>
+                <button class="ebar-btn" onclick="eTable()" title="Tabla">⊞</button>
+                <div class="ebar-div"></div>
+                <button class="ebar-btn" onclick="ec('undo')">↩</button>
+                <button class="ebar-btn" onclick="ec('redo')">↪</button>
+              </div>
+              <div class="editor-area" id="lessonEditor" contenteditable="true" spellcheck="true"><h2>Título de la Lección</h2><p>Comienza a escribir el contenido aquí...</p></div>
+            </div>
+            <div class="f-row mt2">
+              <div class="f-group"><label>Duración estimada</label><input type="text" class="f-ctrl" placeholder="Ej: 35 minutos"></div>
+              <div class="f-group"><label>Tags (coma separados)</label><input type="text" class="f-ctrl" placeholder="anatomía, corazón, morfofunción"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ════ ADMIN MEDIA ════ -->
+      <div id="p-admin-media" class="page">
+        <div class="page-header">
+          <div><h2>Biblioteca de <span>Medios</span></h2><p>Videos, imágenes, PDFs, diapositivas y modelos 3D</p></div>
+          <div class="ph-actions"><button class="btn btn-primary" onclick="triggerUpload()">☁ Subir Archivos</button></div>
+        </div>
+        <div class="upload-zone mb3" id="uploadZone" onclick="triggerUpload()" ondragover="uzDrag(event,true)" ondragleave="uzDrag(event,false)" ondrop="uzDrop(event)">
+          <input type="file" id="fileInput" multiple accept="video/*,image/*,.pdf,.pptx,.docx,.mp3,.glb" onchange="handleFiles(event)">
+          <div class="uz-icon">☁</div>
+          <div class="uz-title">Arrastra archivos aquí o haz clic para seleccionar</div>
+          <div class="uz-sub">MP4, JPG/PNG, PDF, PPTX, Word, MP3, Modelos 3D (GLB)</div>
+        </div>
+        <div class="card">
+          <div class="card-hd"><div class="card-title">📁 Archivos Subidos</div><input type="search" class="f-ctrl" style="width:200px" placeholder="Buscar archivo..." oninput="filterMedia(this.value)"></div>
+          <div class="card-body">
+            <div class="tabs">
+              <button class="tab-btn active" onclick="switchTab(this,'tab-all')">Todos</button>
+              <button class="tab-btn" onclick="switchTab(this,'tab-videos')">Videos</button>
+              <button class="tab-btn" onclick="switchTab(this,'tab-images')">Imágenes</button>
+              <button class="tab-btn" onclick="switchTab(this,'tab-docs')">Documentos</button>
+              <button class="tab-btn" onclick="switchTab(this,'tab-slides')">Diapositivas</button>
+              <button class="tab-btn" onclick="switchTab(this,'tab-3d')">3D</button>
+            </div>
+            <div class="tab-pane active" id="tab-all"><div class="media-grid" id="mediaGrid"></div></div>
+            <div class="tab-pane" id="tab-videos"><div class="media-grid" id="mgVideos"></div></div>
+            <div class="tab-pane" id="tab-images"><div class="media-grid" id="mgImages"></div></div>
+            <div class="tab-pane" id="tab-docs"><div class="media-grid" id="mgDocs"></div></div>
+            <div class="tab-pane" id="tab-slides"><div class="media-grid" id="mgSlides"></div></div>
+            <div class="tab-pane" id="tab-3d"><div class="media-grid" id="mg3d"></div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ════ ADMIN FORUMS ════ -->
+      <div id="p-admin-forums" class="page">
+        <div class="page-header">
+          <div><h2>Foros de <span>Discusión</span></h2><p>Debates académicos PUCE-SD × LUZ en tiempo real</p></div>
+          <div class="ph-actions"><button class="btn btn-primary" onclick="openModal('m-new-forum')">+ Nuevo Foro</button></div>
+        </div>
+        <div class="card">
+          <div class="card-hd"><div class="card-title">💬 Foros Activos</div></div>
+          <div class="card-body" id="forumsContainer"></div>
+        </div>
+      </div>
+
+      <!-- ════ ADMIN EVALUACIONES ════ -->
+      <div id="p-admin-evaluations" class="page">
+        <div class="page-header">
+          <div><h2>Gestión de <span>Evaluaciones</span></h2><p>Quizzes, OSCEs, ABP y diagnóstico por imagen</p></div>
+          <div class="ph-actions"><button class="btn btn-primary" onclick="openModal('m-new-eval')">+ Nueva Evaluación</button></div>
+        </div>
+        <div class="card">
+          <div class="card-hd"><div class="card-title">🎓 Evaluaciones Configuradas</div></div>
+          <div class="tbl-wrap"><table><thead><tr><th>Nombre</th><th>Tipo</th><th>Módulo</th><th>Estado</th><th>Acciones</th></tr></thead><tbody id="evalsTbody"></tbody></table></div>
+        </div>
+      </div>
+
+      <!-- ════ ADMIN CASOS CLÍNICOS ════ -->
+      <div id="p-admin-cases" class="page">
+        <div class="page-header">
+          <div><h2>Casos <span>Clínicos</span></h2><p>ABP escalonado con árbol de decisiones para ambas cohortes</p></div>
+          <div class="ph-actions"><button class="btn btn-primary" onclick="toast('Constructor ABP en desarrollo','info')">+ Nuevo Caso</button></div>
+        </div>
+        <div id="casesContainer"></div>
+      </div>
+
+      <!-- ════ ADMIN USERS ════ -->
+      <div id="p-admin-users" class="page">
+        <div class="page-header">
+          <div><h2>Usuarios y <span>Roles</span></h2><p>Control de acceso por institución y nivel</p></div>
+          <div class="ph-actions"><button class="btn btn-primary" onclick="openModal('m-new-user')">+ Nuevo Usuario</button></div>
+        </div>
+        <div class="card">
+          <div class="card-hd"><div class="card-title">👥 Equipo Autorizado</div></div>
+          <div class="tbl-wrap"><table><thead><tr><th>Usuario</th><th>Email</th><th>Institución</th><th>Rol</th><th>Acciones</th></tr></thead><tbody id="usersTbody"></tbody></table></div>
+        </div>
+      </div>
+
+      <!-- ════ ADMIN ANALYTICS ════ -->
+      <div id="p-admin-analytics" class="page">
+        <div class="page-header">
+          <div><h2>Analíticas <span>xAPI</span></h2><p>Trazabilidad académica por institución, módulo y estudiante</p></div>
+        </div>
+        <div class="g4 mb3">
+          <div class="metric-mini"><div class="mm-val">847</div><div class="mm-lbl">Estudiantes activos</div></div>
+          <div class="metric-mini"><div class="mm-val">78%</div><div class="mm-lbl">Tasa de completado</div></div>
+          <div class="metric-mini"><div class="mm-val">4.2</div><div class="mm-lbl">Nota promedio quiz</div></div>
+          <div class="metric-mini"><div class="mm-val">312h</div><div class="mm-lbl">Tiempo en plataforma</div></div>
+        </div>
+        <div class="g2">
+          <div class="card">
+            <div class="card-hd"><div class="card-title">📈 Progreso por Sistema</div></div>
+            <div class="card-body" id="analyticsProgress"></div>
+          </div>
+          <div class="card">
+            <div class="card-hd"><div class="card-title">🏆 Top Estudiantes</div></div>
+            <div class="card-body" id="topStudents"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ════ ADMIN COIL ════ -->
+      <div id="p-admin-coil" class="page">
+        <div class="page-header">
+          <div><h2>Gestión <span>COIL</span></h2><p>Actividades colaborativas internacionales PUCE-SD × LUZ</p></div>
+          <div class="ph-actions"><button class="btn btn-primary" onclick="toast('Nueva actividad COIL creada','success')">+ Nueva Actividad</button></div>
+        </div>
+        <div class="coil-hero">
+          <div class="coil-eyebrow">Collaborative Online International Learning</div>
+          <h2>PUCE-SD Ecuador × LUZ Venezuela</h2>
+          <p>Plataforma de internacionalización curricular. Los estudiantes de Morfofunción y Anatomía Humana trabajan en proyectos conjuntos sin barreras geográficas.</p>
+          <div class="coil-badges"><span class="coil-badge">7 Sistemas Anatómicos</span><span class="coil-badge">2 Países</span><span class="coil-badge">ABP Binacional</span><span class="coil-badge">Webinars Conjuntos</span></div>
+        </div>
+        <div class="g3" id="coilActivities"></div>
+      </div>
+
+      <!-- ════ ADMIN SETTINGS ════ -->
+      <div id="p-admin-settings" class="page">
+        <div class="page-header">
+          <div><h2>Configuración <span>General</span></h2><p>Ajustes globales, seguridad y funcionalidades de la plataforma</p></div>
+          <div class="ph-actions"><button class="btn btn-success" onclick="saveSettings()">💾 Guardar Todo</button></div>
+        </div>
+        <div class="g2">
+          <div class="card">
+            <div class="card-hd"><div class="card-title">🏛 Información</div></div>
+            <div class="card-body">
+              <div class="f-group"><label>Nombre Plataforma</label><input type="text" class="f-ctrl" value="MED-COIL"></div>
+              <div class="f-group"><label>Universidad Coordinadora (Ecuador)</label><input type="text" class="f-ctrl" value="PUCE-SD — Pontificia Universidad Católica del Ecuador, Sede Santo Domingo"></div>
+              <div class="f-group"><label>Universidad Colaboradora (Venezuela)</label><input type="text" class="f-ctrl" value="LUZ — Universidad del Zulia, Maracaibo"></div>
+              <div class="f-group"><label>Email de Soporte</label><input type="email" class="f-ctrl" value="gnguida@pucesd.edu.ec"></div>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-hd"><div class="card-title">⚙️ Funcionalidades</div></div>
+            <div class="card-body" id="featureToggles"></div>
+          </div>
+          <div class="card">
+            <div class="card-hd"><div class="card-title">🔒 Seguridad y Sesión</div></div>
+            <div class="card-body">
+              <div class="f-row">
+                <div class="f-group"><label>Tiempo sesión (min)</label><input type="number" class="f-ctrl" value="120"></div>
+                <div class="f-group"><label>Intentos de login</label><input type="number" class="f-ctrl" value="5"></div>
+              </div>
+              <div class="f-group"><label>Tamaño máx. archivo (MB)</label><input type="number" class="f-ctrl" value="500"></div>
+              <button class="btn btn-outline w100 mt2" style="color:var(--rose);border-color:var(--rose)" onclick="toast('Función de cambio de contraseña disponible en producción','info')">🔑 Cambiar Contraseña Maestra</button>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-hd"><div class="card-title">🎨 Apariencia</div></div>
+            <div class="card-body">
+              <div class="f-group"><label>Color Principal</label>
+                <div class="flex gap2 mt1">
+                  <div onclick="toast('Color #2563EB aplicado','success')" style="width:32px;height:32px;border-radius:50%;background:#2563EB;cursor:pointer;border:3px solid var(--slate8)"></div>
+                  <div onclick="toast('Color #059669 aplicado','success')" style="width:32px;height:32px;border-radius:50%;background:#059669;cursor:pointer"></div>
+                  <div onclick="toast('Color #7C3AED aplicado','success')" style="width:32px;height:32px;border-radius:50%;background:#7C3AED;cursor:pointer"></div>
+                  <div onclick="toast('Color #E11D48 aplicado','success')" style="width:32px;height:32px;border-radius:50%;background:#E11D48;cursor:pointer"></div>
+                  <div onclick="toast('Color #D97706 aplicado','success')" style="width:32px;height:32px;border-radius:50%;background:#D97706;cursor:pointer"></div>
+                </div>
+              </div>
+              <div class="f-group"><label>Logo Institucional</label>
+                <div style="border:2px dashed var(--slate3);border-radius:var(--r-md);padding:2rem;text-align:center;cursor:pointer;color:var(--slate4)" onclick="toast('Subida de logo disponible en producción','info')">🏛 Subir logo institucional</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ════ STUDENT DASHBOARD ════ -->
+      <div id="p-dashboard" class="page">
+        <div class="welcome-card" id="welcomeCard">
+          <div class="wc-greeting">Bienvenido de nuevo</div>
+          <div class="wc-name" id="wcName">Estudiante</div>
+          <div class="wc-sub" id="wcSub">Continúa donde lo dejaste. Tu próxima lección está lista.</div>
+          <div class="wc-ctas">
+            <button class="wc-btn wc-btn-primary" onclick="navTo('modules')">Continuar lección →</button>
+            <button class="wc-btn wc-btn-outline" onclick="navTo('evaluation')">Ver evaluaciones</button>
+          </div>
+        </div>
+        <div class="g3 mb3">
+          <div class="card">
+            <div class="card-hd"><div class="card-title">📖 Módulo Actual</div></div>
+            <div class="card-body">
+              <div class="fw6 mb1">Sistema Cardiovascular</div>
+              <div class="prog-track mb1"><div class="prog-fill" style="width:75%"></div></div>
+              <div class="text-muted mb2">75% completado · 18/24 lecciones</div>
+              <button class="btn btn-primary btn-sm" onclick="navTo('modules')">Continuar →</button>
+            </div>
+          </div>
+          <div class="card" style="background:linear-gradient(135deg,var(--violet),var(--indigo));color:white;border:none">
+            <div class="card-hd" style="border-color:rgba(255,255,255,.15)"><div class="card-title" style="color:white">🏆 Gamificación</div></div>
+            <div class="card-body">
+              <div class="flex align-c gap2 mb2"><div style="font-size:2rem">🥈</div><div><div class="fw6">Nivel 8</div><div style="font-size:.82rem;opacity:.8">Médico Residente II</div></div></div>
+              <div style="font-size:.8rem;opacity:.8;margin-bottom:6px">9,500 / 10,000 XP</div>
+              <div style="background:rgba(255,255,255,.2);border-radius:20px;height:7px"><div style="height:100%;width:95%;background:white;border-radius:20px"></div></div>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-hd"><div class="card-title">🌐 Colaboración COIL</div></div>
+            <div class="card-body">
+              <div class="fw6 mb1">Equipo: Cardiovascular Alpha</div>
+              <div class="text-muted mb1">Socio: LUZ - Maracaibo, Venezuela</div>
+              <div class="text-muted mb2">Próxima sesión: Jueves 10:00 AM</div>
+              <button class="btn btn-success btn-sm" onclick="navTo('coil')">🎥 Unirse al espacio</button>
+            </div>
+          </div>
+        </div>
+        <!-- AI Tutor -->
+        <div class="card mb3">
+          <div class="card-hd"><div class="card-title">🤖 Tutor IA — Genflow</div><span class="badge b-success">En línea</span></div>
+          <div class="card-body">
+            <div class="chat-log" id="studentChatLog"><div class="chat-msg bot"><strong>Genflow:</strong> Hola, ¿en qué puedo ayudarte hoy con anatomía o morfofunción?</div></div>
+            <div class="chat-input-row">
+              <input type="text" id="studentChatInput" class="f-ctrl" placeholder="Pregunta sobre anatomía, fisiología, casos clínicos..." onkeydown="if(event.key==='Enter')studentAskAI()">
+              <button class="btn btn-primary" onclick="studentAskAI()">Enviar</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ════ STUDENT MODULES ════ -->
+      <div id="p-modules" class="page">
+        <div class="page-header"><div><h2>Módulos de <span>Aprendizaje</span></h2><p>Sistemas anatómicos integrados PUCE-SD y LUZ</p></div></div>
+        <div id="studentModulesGrid"></div>
+      </div>
+
+      <!-- ════ STUDENT EVALUATION ════ -->
+      <div id="p-evaluation" class="page">
+        <div class="page-header"><div><h2>Zona de <span>Evaluación</span></h2><p>Quizzes, casos ABP y retos clínicos</p></div></div>
+        <div style="background:var(--indigo);color:white;border-radius:var(--r-xl);padding:28px;margin-bottom:24px">
+          <div style="font-family:var(--font-head);font-size:1.4rem;font-style:italic;margin-bottom:8px">Saber anatomía no es memorizar huesos.</div>
+          <div style="font-size:.88rem;opacity:.85;max-width:560px;line-height:1.65">Es reconocer una TC, orientarte en un quirófano y explicarle al paciente qué estructura le está fallando. Aquí entrenas exactamente eso.</div>
+        </div>
+        <div class="g3 mb3">
+          <div class="card" style="cursor:pointer" onclick="document.getElementById('quizSection').scrollIntoView({behavior:'smooth'})">
+            <div class="card-body" style="text-align:center;padding:24px">
+              <div style="font-size:2.5rem;margin-bottom:10px">❓</div>
+              <div class="fw6 mb1">Cuestionarios</div>
+              <div class="text-muted mb2">Banco aleatorizado con retroalimentación inmediata</div>
+              <span class="badge b-primary">Quiz activo ↓</span>
+            </div>
+          </div>
+          <div class="card" style="cursor:pointer" onclick="navTo('cases')">
+            <div class="card-body" style="text-align:center;padding:24px">
+              <div style="font-size:2.5rem;margin-bottom:10px">🩺</div>
+              <div class="fw6 mb1">Casos ABP</div>
+              <div class="text-muted mb2">Árbol de decisiones clínicas con docentes PUCE-LUZ</div>
+              <span class="badge b-success">Ver casos →</span>
+            </div>
+          </div>
+          <div class="card" style="cursor:pointer" onclick="openModal('m-escaperoom')">
+            <div class="card-body" style="text-align:center;padding:24px">
+              <div style="font-size:2.5rem;margin-bottom:10px">🔐</div>
+              <div class="fw6 mb1">Escape Room</div>
+              <div class="text-muted mb2">Gamificación morfofuncional con ranking PUCE-LUZ</div>
+              <span class="badge b-danger">Iniciar misión →</span>
+            </div>
+          </div>
+        </div>
+        <!-- QUIZ ACTIVO -->
+        <div id="quizSection">
+          <div class="card">
+            <div class="card-hd"><div class="card-title">❓ Quiz Activo — Sistema Cardiorrespiratorio</div><span id="quizScore" class="badge b-primary">0 correctas</span></div>
+            <div class="card-body">
+              <div class="prog-track mb2"><div class="prog-fill" id="quizBar" style="width:0%"></div></div>
+              <div class="quiz-box" id="quizContent"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ════ STUDENT CASES ════ -->
+      <div id="p-cases" class="page">
+        <div class="page-header"><div><h2>Casos <span>Clínicos</span></h2><p>Aprendizaje Basado en Problemas con árbol de decisiones</p></div></div>
+        <div id="studentCasesContainer"></div>
+      </div>
+
+      <!-- ════ COIL SPACE ════ -->
+      <div id="p-coil" class="page">
+        <div class="page-header"><div><h2>Espacio <span>COIL</span></h2><p>Colaboración internacional PUCE-SD Ecuador × LUZ Venezuela</p></div></div>
+        <div class="coil-hero">
+          <div class="coil-eyebrow">Collaborative Online International Learning · Internacionalización en Casa</div>
+          <h2>Dos facultades. Un solo cuerpo humano.</h2>
+          <p>La PUCE-SD y la Universidad del Zulia integran sus cátedras de Morfofunción y Anatomía Humana. Aquí convergen dos perspectivas, un mismo rigor clínico y los recursos de dos programas de medicina.</p>
+          <div class="coil-badges"><span class="coil-badge">Ecuador × Venezuela</span><span class="coil-badge">7 Sistemas</span><span class="coil-badge">ABP Binacional</span><span class="coil-badge">Webinars Conjuntos</span></div>
+        </div>
+        <div class="g2 mb3">
+          <div class="card">
+            <div class="card-hd"><div class="card-title">📅 Próximos Webinars</div></div>
+            <div class="card-body" id="coilEvents"></div>
+          </div>
+          <div class="card">
+            <div class="card-hd"><div class="card-title">💬 Foro Internacional</div><button class="btn btn-sm btn-primary" onclick="openModal('m-new-forum')">+ Nuevo hilo</button></div>
+            <div class="card-body" id="coilForums"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ════ FORUM PAGE ════ -->
+      <div id="p-forum" class="page">
+        <div class="page-header">
+          <div><h2>Foros de <span>Discusión</span></h2><p>Debates académicos PUCE-SD × LUZ</p></div>
+          <div class="ph-actions"><button class="btn btn-primary" onclick="openModal('m-new-forum')">+ Nuevo Hilo</button></div>
+        </div>
+        <div class="card">
+          <div class="card-hd"><div class="card-title">💬 Hilos Activos</div></div>
+          <div class="card-body" id="studentForums"></div>
+        </div>
+      </div>
+
+      <!-- ════ ANNOUNCEMENTS ════ -->
+      <div id="p-announcements" class="page">
+        <div class="page-header"><div><h2>Anuncios <span>Académicos</span></h2><p>Comunicaciones oficiales del programa COIL</p></div></div>
+        <div id="announcementsContainer"></div>
+      </div>
+
+      <!-- ════ CALENDAR ════ -->
+      <div id="p-calendar" class="page">
+        <div class="page-header"><div><h2>Calendario <span>Académico</span></h2><p>Eventos, seminarios y entregas del semestre</p></div></div>
+        <div class="g2">
+          <div class="card">
+            <div class="card-hd"><div class="card-title">📅 Mayo 2025</div></div>
+            <div class="card-body" id="calEvents"></div>
+          </div>
+          <div class="card">
+            <div class="card-hd"><div class="card-title">📅 Junio 2025</div></div>
+            <div class="card-body" id="calEventsJun"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ════ GAMIFICATION ════ -->
+      <div id="p-gamification" class="page">
+        <div class="page-header"><div><h2>Gamificación <span>Médica</span></h2><p>Tu progreso, logros y posición en el ranking PUCE-LUZ</p></div></div>
+        <div class="g2 mb3">
+          <div class="xp-card">
+            <div class="xp-level">Nivel 8 · Médico Residente II</div>
+            <div class="xp-name">Ana García Montiel</div>
+            <div class="xp-bar-track"><div class="xp-bar-fill" style="width:95%"></div></div>
+            <div class="xp-meta"><span>9,500 XP</span><span>10,000 XP para Nivel 9</span></div>
+          </div>
+          <div class="card">
+            <div class="card-hd"><div class="card-title">🏅 Tus Logros</div></div>
+            <div class="card-body">
+              <div class="badge-grid" id="badgeGrid"></div>
+            </div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-hd"><div class="card-title">🏆 Ranking PUCE-SD × LUZ</div></div>
+          <div class="tbl-wrap"><table><thead><tr><th>#</th><th>Estudiante</th><th>Institución</th><th>XP</th><th>Nivel</th></tr></thead><tbody id="rankingTbody"></tbody></table></div>
+        </div>
+      </div>
+
+      <!-- ════ PROFILE ════ -->
+      <div id="p-profile" class="page">
+        <div class="card mb3">
+          <div class="profile-banner"><div class="profile-av av" id="profileAv"></div></div>
+          <div class="profile-info">
+            <div class="profile-name" id="profileName"></div>
+            <div class="profile-role" id="profileRole"></div>
+            <div class="profile-stats">
+              <div class="pstat"><div class="pstat-n" id="pstatMod">—</div><div class="pstat-l">Módulos</div></div>
+              <div class="pstat"><div class="pstat-n" id="pstatXP">—</div><div class="pstat-l">XP Total</div></div>
+              <div class="pstat"><div class="pstat-n" id="pstatPubs">—</div><div class="pstat-l">Publicaciones</div></div>
+            </div>
+          </div>
+        </div>
+        <div class="g2">
+          <div class="card">
+            <div class="card-hd"><div class="card-title">✏️ Editar Perfil</div></div>
+            <div class="card-body">
+              <div class="f-group"><label>Nombre completo</label><input type="text" class="f-ctrl" id="profileNameInput"></div>
+              <div class="f-group"><label>Institución</label><input type="text" class="f-ctrl" id="profileInstInput"></div>
+              <div class="f-group"><label>ORCID</label><input type="text" class="f-ctrl" id="profileOrcidInput"></div>
+              <div class="f-group"><label>Email</label><input type="email" class="f-ctrl" id="profileEmailInput"></div>
+              <button class="btn btn-primary" onclick="saveProfile()">Guardar cambios</button>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-hd"><div class="card-title">🎓 Certificados</div></div>
+            <div class="card-body" id="certsContainer"></div>
+          </div>
+        </div>
+      </div>
+
+    </main>
+  </div>
+</div>
+
+<!-- ══════════ MODALS ══════════ -->
+<!-- New Content -->
+<div class="modal-overlay" id="m-new-content">
+  <div class="modal">
+    <div class="modal-hd"><h3>+ ¿Qué deseas crear?</h3><button class="modal-close" onclick="closeModal('m-new-content')">✕</button></div>
+    <div class="modal-body">
+      <div class="g3">
+        <button class="btn btn-outline" style="flex-direction:column;padding:20px;height:90px" onclick="closeModal('m-new-content');navTo('admin-modules')">📚<br>Módulo</button>
+        <button class="btn btn-outline" style="flex-direction:column;padding:20px;height:90px" onclick="closeModal('m-new-content');navTo('admin-editor')">✏️<br>Lección</button>
+        <button class="btn btn-outline" style="flex-direction:column;padding:20px;height:90px" onclick="closeModal('m-new-content');navTo('admin-media')">🎬<br>Medio</button>
+        <button class="btn btn-outline" style="flex-direction:column;padding:20px;height:90px" onclick="closeModal('m-new-content');navTo('admin-forums')">💬<br>Foro</button>
+        <button class="btn btn-outline" style="flex-direction:column;padding:20px;height:90px" onclick="closeModal('m-new-content');navTo('admin-evaluations')">🎓<br>Evaluación</button>
+        <button class="btn btn-outline" style="flex-direction:column;padding:20px;height:90px" onclick="closeModal('m-new-content');navTo('admin-cases')">🩺<br>Caso ABP</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- New Module -->
+<div class="modal-overlay" id="m-new-module">
+  <div class="modal">
+    <div class="modal-hd"><h3>📚 Nuevo Módulo Académico</h3><button class="modal-close" onclick="closeModal('m-new-module')">✕</button></div>
+    <div class="modal-body">
+      <div class="f-group"><label>Título <span class="req">*</span></label><input type="text" id="nm-title" class="f-ctrl" placeholder="Ej: Sistema Endocrino"></div>
+      <div class="f-group"><label>Descripción</label><textarea id="nm-desc" class="f-ctrl" rows="3" placeholder="Describe el módulo..."></textarea></div>
+      <div class="f-row">
+        <div class="f-group"><label>Categoría</label><select id="nm-cat" class="f-ctrl"><option>Anatomía</option><option>Fisiología</option><option>Patología</option><option>Embriología</option></select></div>
+        <div class="f-group"><label>Estado</label><select id="nm-status" class="f-ctrl"><option>Borrador</option><option>Publicado</option></select></div>
+      </div>
+    </div>
+    <div class="modal-ft"><button class="btn btn-ghost" onclick="closeModal('m-new-module')">Cancelar</button><button class="btn btn-primary" onclick="createModule()">Crear Módulo</button></div>
+  </div>
+</div>
+
+<!-- Insert Video -->
+<div class="modal-overlay" id="m-insert-video">
+  <div class="modal">
+    <div class="modal-hd"><h3>▶ Insertar Video</h3><button class="modal-close" onclick="closeModal('m-insert-video')">✕</button></div>
+    <div class="modal-body">
+      <div class="f-group"><label>URL YouTube / Vimeo / Bunny.net</label><input type="url" id="videoUrl" class="f-ctrl" placeholder="https://..."></div>
+      <div class="upload-zone" style="padding:1.2rem" onclick="triggerUpload()"><div style="font-size:1.5rem">☁</div><p class="text-sm text-muted">O sube un archivo MP4</p></div>
+    </div>
+    <div class="modal-ft"><button class="btn btn-ghost" onclick="closeModal('m-insert-video')">Cancelar</button><button class="btn btn-primary" onclick="insertVideo()">Insertar</button></div>
+  </div>
+</div>
+
+<!-- Insert Image -->
+<div class="modal-overlay" id="m-insert-img">
+  <div class="modal">
+    <div class="modal-hd"><h3>🖼 Insertar Imagen</h3><button class="modal-close" onclick="closeModal('m-insert-img')">✕</button></div>
+    <div class="modal-body">
+      <div class="f-group"><label>URL de la imagen</label><input type="url" id="imgUrl" class="f-ctrl" placeholder="https://..."></div>
+      <div class="f-group"><label>Texto alternativo (accesibilidad)</label><input type="text" id="imgAlt" class="f-ctrl"></div>
+    </div>
+    <div class="modal-ft"><button class="btn btn-ghost" onclick="closeModal('m-insert-img')">Cancelar</button><button class="btn btn-primary" onclick="insertImg()">Insertar</button></div>
+  </div>
+</div>
+
+<!-- New Eval -->
+<div class="modal-overlay" id="m-new-eval">
+  <div class="modal modal-lg">
+    <div class="modal-hd"><h3>🎓 Nueva Evaluación</h3><button class="modal-close" onclick="closeModal('m-new-eval')">✕</button></div>
+    <div class="modal-body">
+      <div class="f-row">
+        <div class="f-group"><label>Título <span class="req">*</span></label><input type="text" id="ev-title" class="f-ctrl"></div>
+        <div class="f-group"><label>Tipo</label><select id="ev-type" class="f-ctrl"><option>Quiz</option><option>OSCE</option><option>ABP</option><option>Diagnóstico por Imagen</option></select></div>
+      </div>
+      <div class="f-row">
+        <div class="f-group"><label>Módulo</label><select id="ev-mod" class="f-ctrl"></select></div>
+        <div class="f-group"><label>Fecha Límite</label><input type="date" class="f-ctrl"></div>
+      </div>
+    </div>
+    <div class="modal-ft"><button class="btn btn-ghost" onclick="closeModal('m-new-eval')">Cancelar</button><button class="btn btn-primary" onclick="createEval()">Crear</button></div>
+  </div>
+</div>
+
+<!-- New Forum -->
+<div class="modal-overlay" id="m-new-forum">
+  <div class="modal">
+    <div class="modal-hd"><h3>💬 Nuevo Foro / Hilo</h3><button class="modal-close" onclick="closeModal('m-new-forum')">✕</button></div>
+    <div class="modal-body">
+      <div class="f-group"><label>Tema <span class="req">*</span></label><input type="text" id="for-title" class="f-ctrl" placeholder="Ej: Variantes del triángulo de Hesselbach"></div>
+      <div class="f-group"><label>Descripción</label><textarea id="for-desc" class="f-ctrl" rows="3" placeholder="Desarrolla el planteamiento inicial..."></textarea></div>
+      <div class="f-group"><label>Sistema / Módulo</label><select id="for-mod" class="f-ctrl"></select></div>
+    </div>
+    <div class="modal-ft"><button class="btn btn-ghost" onclick="closeModal('m-new-forum')">Cancelar</button><button class="btn btn-primary" onclick="createForum()">Crear Foro</button></div>
+  </div>
+</div>
+
+<!-- New User -->
+<div class="modal-overlay" id="m-new-user">
+  <div class="modal">
+    <div class="modal-hd"><h3>👤 Nuevo Usuario</h3><button class="modal-close" onclick="closeModal('m-new-user')">✕</button></div>
+    <div class="modal-body">
+      <div class="f-row">
+        <div class="f-group"><label>Nombre <span class="req">*</span></label><input type="text" id="nu-name" class="f-ctrl"></div>
+        <div class="f-group"><label>Email <span class="req">*</span></label><input type="email" id="nu-email" class="f-ctrl"></div>
+      </div>
+      <div class="f-row">
+        <div class="f-group"><label>Institución</label><select class="f-ctrl"><option>PUCE-SD</option><option>LUZ</option></select></div>
+        <div class="f-group"><label>Rol</label><select id="nu-role" class="f-ctrl"><option>Editor</option><option>Estudiante</option></select></div>
+      </div>
+    </div>
+    <div class="modal-ft"><button class="btn btn-ghost" onclick="closeModal('m-new-user')">Cancelar</button><button class="btn btn-primary" onclick="createUser()">Crear Usuario</button></div>
+  </div>
+</div>
+
+<!-- Escape Room -->
+<div class="modal-overlay" id="m-escaperoom">
+  <div class="modal">
+    <div class="modal-hd"><h3>🔐 Escape Room Morfofuncional</h3><button class="modal-close" onclick="closeModal('m-escaperoom')">✕</button></div>
+    <div class="modal-body">
+      <div style="background:var(--slate9);color:white;border-radius:var(--r-lg);padding:20px;margin-bottom:16px;text-align:center">
+        <div style="font-size:3rem;margin-bottom:8px">🏥</div>
+        <div style="font-family:var(--font-head);font-size:1.3rem;font-style:italic;margin-bottom:8px">El Cuerpo en Crisis</div>
+        <div style="font-size:.84rem;opacity:.75">Estás atrapado en un quirófano virtual. Resuelve 5 enigmas anatómicos antes de que el tiempo se agote.</div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:8px;margin-bottom:16px">
+        <div class="flex align-c gap2"><span style="font-size:1.1rem">🫀</span><span class="text-sm">Sala 1: Abdomen agudo — Diagnóstico anatómico</span></div>
+        <div class="flex align-c gap2"><span style="font-size:1.1rem">🧠</span><span class="text-sm">Sala 2: Trauma craneal — Pares craneales</span></div>
+        <div class="flex align-c gap2"><span style="font-size:1.1rem">🫁</span><span class="text-sm">Sala 3: Tórax — Cirugía de urgencia</span></div>
+        <div class="flex align-c gap2"><span style="font-size:1.1rem">🦴</span><span class="text-sm">Sala 4: Pelvis — Anatomía quirúrgica</span></div>
+      </div>
+      <div class="badge b-warning" style="margin-bottom:14px">🔔 Lanzamiento: Mayo 2025</div>
+    </div>
+    <div class="modal-ft">
+      <button class="btn btn-ghost" onclick="closeModal('m-escaperoom')">Cerrar</button>
+      <button class="btn btn-primary" onclick="closeModal('m-escaperoom');toast('Escape Room en preparación. Disponible pronto.','info')">Inscribirme →</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════ JAVASCRIPT ══════════ -->
+<script>
+/* ══ STATE ══ */
+const USERS_DB = {
+  "gnguida@pucesd.edu.ec": { pw:"admin2026", name:"Guido Nino Guida Acevedo", initials:"GN", role:"superadmin", institution:"PUCE-SD", color:"linear-gradient(135deg,#2563EB,#059669)", orcid:"0000-0002-3721-9618" },
+  "j.linares@luz.edu.ve": { pw:"editor2026", name:"Dr. Johan Linares", initials:"JL", role:"editor", institution:"LUZ", color:"linear-gradient(135deg,#7C3AED,#059669)", orcid:"0000-0000-0000-0000" },
+  "a.garcia@estudiante.luz.edu.ve": { pw:"student2026", name:"Ana García Montiel", initials:"AG", role:"student", institution:"LUZ", color:"linear-gradient(135deg,#0891B2,#7C3AED)", orcid:"" }
+};
+
+let currentUser = null;
+let quizIdx = 0, quizScore = 0, quizAnswered = false;
+
+let modules = [
+  {id:1,title:"Sistema Cardiovascular",cat:"Anatomía",lessons:24,status:"Publicado",author:"G. Guida",prog:100},
+  {id:2,title:"Sistema Nervioso",cat:"Anatomía",lessons:21,status:"Publicado",author:"J. Linares",prog:100},
+  {id:3,title:"Sistema Musculoesquelético",cat:"Anatomía",lessons:18,status:"Borrador",author:"G. Guida",prog:72},
+  {id:4,title:"Sistema Digestivo y Hepatobiliar",cat:"Fisiología",lessons:20,status:"Publicado",author:"G. Guida",prog:100},
+  {id:5,title:"Sistema Urogenital",cat:"Anatomía",lessons:16,status:"Borrador",author:"J. Linares",prog:45},
+  {id:6,title:"Cabeza, Cuello y Sentidos",cat:"Anatomía",lessons:22,status:"Borrador",author:"G. Guida",prog:60},
+  {id:7,title:"Embriología Clínica",cat:"Embriología",lessons:14,status:"Borrador",author:"J. Linares",prog:30}
+];
+
+let mediaFiles = [
+  {name:"anatomia-cardiaca.mp4",type:"video",size:"248 MB",icon:"🎬"},
+  {name:"corazon-4-camaras.png",type:"image",size:"1.2 MB",icon:"🖼️"},
+  {name:"guia-cardiovascular.pdf",type:"doc",size:"4.5 MB",icon:"📄"},
+  {name:"presentacion-caso.pptx",type:"slides",size:"12 MB",icon:"📊"},
+  {name:"corazon-3d.glb",type:"3d",size:"18 MB",icon:"🧊"},
+  {name:"fisiologia-resp.mp4",type:"video",size:"312 MB",icon:"🎬"},
+  {name:"soplos-cardiaca.mp3",type:"doc",size:"22 MB",icon:"🎵"},
+  {name:"neuroanatomy-slides.pptx",type:"slides",size:"8 MB",icon:"📊"},
+  {name:"anatomia-digestiva.png",type:"image",size:"2.1 MB",icon:"🖼️"}
+];
+
+let forums = [
+  {id:1,title:"¿Qué implicación tiene la AMI en cirugía de recto bajo?",author:"G. Guida",av:"GN",institution:"PUCE-SD",module:"Digestivo",replies:7,views:42,date:"hace 2 días"},
+  {id:2,title:"Diferencias Gray vs Testut en triángulo de Hesselbach: ¿cuál usan en LUZ?",author:"Carlos M.",av:"CM",institution:"LUZ",module:"Musculoesquelético",replies:12,views:88,date:"hace 4 días"},
+  {id:3,title:"Caso ABP: Síndrome de Mirizzi tipo III — conducta preoperatoria",author:"Luis M.",av:"LM",institution:"PUCE-SD",module:"Hepatobiliar",replies:19,views:134,date:"hace 1 semana"}
+];
+
+const quizQuestions = [
+  {q:"¿Cuál arteria irriga el nodo sinusal en el 60% de los casos?",ctx:"Paciente de 68 años con bradicardia sinusal severa tras ACTP de la arteria coronaria derecha.",opts:["Arteria circunfleja izquierda","Arteria coronaria derecha","Primera rama diagonal","Arteria marginal obtusa"],correct:1,ok:"Correcto. La arteria del nodo sinusal es rama de la coronaria derecha en ~60%, lo que explica la alta incidencia de bradiarritmias en el infarto inferoposterior.",err:"Incorrecto. La arteria del nodo sinusal es mayoritariamente rama de la coronaria derecha, con directa implicación en las bradiarritmias por infarto inferior."},
+  {q:"¿En qué segmento de Couinaud se localiza la bifurcación de la vena porta derecha?",ctx:"Resección hepática laparoscópica. El cirujano necesita identificar el plano entre segmentos anteriores y posteriores del lóbulo derecho.",opts:["Segmento IV","Segmento V","Segmento VII","A caballo entre VI y VII"],correct:1,ok:"Correcto. El segmento V es anterior e inferior en el lóbulo derecho; la rama portal derecha anterior define el límite con el VIII superior.",err:"Incorrecto. La segmentación de Couinaud se divide por la distribución de la vena porta y las venas hepáticas, no por cisuras visibles externamente."},
+  {q:"La lesión del nervio frénico a nivel C4 durante disección cervical izquierda produce:",ctx:"Post-tiroidectomía total. Imagen: hemidiafragma izquierdo elevado, sin paresia vocal.",opts:["Parálisis del hemidiafragma ipsilateral","Parálisis laríngea recurrente","Síndrome de Horner","Paresia del trapecio"],correct:0,ok:"Correcto. El nervio frénico (C3-C5) desciende por la cara anterior del escaleno anterior. Su lesión produce elevación del hemidiafragma ipsilateral.",err:"Incorrecto. El nervio laríngeo recurrente causa parálisis vocal. La imagen de hemidiafragma elevado señala lesión del nervio frénico (C3-C5)."},
+  {q:"¿Cuál forma el límite lateral del triángulo de Hesselbach?",ctx:"Exploración laparoscópica de hernia inguinal directa.",opts:["Ligamento inguinal","Vasos epigástricos inferiores","Ligamento de Cooper","Fascia transversalis"],correct:1,ok:"Correcto. Los límites: borde del recto (medial), ligamento inguinal (inferior), vasos epigástricos inferiores (lateral). La hernia directa protruye medial a los vasos.",err:"Incorrecto. El límite lateral son los vasos epigástricos inferiores. La hernia directa emerge medial a ellos."}
+];
+
+/* ══ LOGIN ══ */
+function doLogin(e) {
+  e.preventDefault();
+  const em = document.getElementById('le').value.trim().toLowerCase();
+  const pw = document.getElementById('lp').value;
+  const u = USERS_DB[em];
+  if(u && u.pw === pw) loginUser(em, u);
+  else document.getElementById('loginErr').classList.add('on');
+}
+function quickLogin(email) { loginUser(email, USERS_DB[email]); }
+function loginUser(email, u) {
+  currentUser = {...u, email};
+  document.getElementById('loginErr').classList.remove('on');
+  document.getElementById('s-login').classList.remove('on');
+  document.getElementById('s-app').classList.add('on');
+  setupUI();
+  const startPage = u.role === 'student' ? 'dashboard' : 'admin-dashboard';
+  navTo(startPage);
+  toast(`Bienvenido, ${u.name.split(' ')[0]} 👋`, 'success');
+}
+function doLogout() {
+  currentUser = null;
+  document.getElementById('s-app').classList.remove('on');
+  document.getElementById('s-login').classList.add('on');
+  document.getElementById('le').value = '';
+  document.getElementById('lp').value = '';
+}
+
+/* ══ UI SETUP ══ */
+function setupUI() {
+  const u = currentUser;
+  // Header
+  document.getElementById('headerAv').style.background = u.color;
+  document.getElementById('headerAv').textContent = u.initials;
+  document.getElementById('headerName').textContent = u.name.split(' ')[0];
+  // Sidebar user
+  document.getElementById('suAv').style.background = u.color;
+  document.getElementById('suAv').textContent = u.initials;
+  document.getElementById('suName').textContent = u.name;
+  document.getElementById('suRole').textContent = u.institution + ' · ' + getRoleLabel(u.role);
+  // View toggle btn
+  const vb = document.getElementById('viewToggleBtn');
+  if(u.role === 'student') { vb.textContent = '⚙ Vista Admin'; } else { vb.textContent = '👁 Vista Estudiante'; }
+  // Nav
+  buildNav(u.role);
+  // Init data
+  initAdminData();
+  initStudentData();
+  setupProfile();
+}
+function getRoleLabel(r) { return {superadmin:'Super Admin',editor:'Editor',student:'Estudiante'}[r]||r; }
+
+/* ══ NAVIGATION ══ */
+function buildNav(role) {
+  const nav = document.getElementById('sidebarNav');
+  const adminMenus = [
+    {section:'Principal',items:[
+      {id:'admin-dashboard',label:'Dashboard',icon:'📊'},
+      {id:'admin-analytics',label:'Analíticas',icon:'📈'},
+    ]},
+    {section:'Contenido',items:[
+      {id:'admin-modules',label:'Módulos',icon:'📚'},
+      {id:'admin-editor',label:'Editor Lecciones',icon:'✏️'},
+      {id:'admin-media',label:'Biblioteca Medios',icon:'🎬'},
+      {id:'admin-cases',label:'Casos Clínicos',icon:'🩺'},
+    ]},
+    {section:'Colaboración',items:[
+      {id:'admin-forums',label:'Foros',icon:'💬',badge:3},
+      {id:'admin-evaluations',label:'Evaluaciones',icon:'🎓'},
+      {id:'admin-coil',label:'Gestión COIL',icon:'🌐'},
+    ]},
+    {section:'Administración',items:[
+      ...(currentUser.role==='superadmin'?[{id:'admin-users',label:'Usuarios',icon:'👥'},{id:'admin-settings',label:'Ajustes',icon:'⚙️'}]:[]),
+      {id:'profile',label:'Mi Perfil',icon:'👤'},
+    ]},
+    {divider:true},
+    {special:'logout'}
+  ];
+  const studentMenus = [
+    {section:'Inicio',items:[
+      {id:'dashboard',label:'Panel',icon:'🏠'},
+      {id:'announcements',label:'Anuncios',icon:'📢',badge:2},
+      {id:'calendar',label:'Calendario',icon:'📅'},
+    ]},
+    {section:'Académico',items:[
+      {id:'modules',label:'Módulos',icon:'📖'},
+      {id:'evaluation',label:'Evaluaciones',icon:'❓'},
+      {id:'cases',label:'Casos ABP',icon:'🩺'},
+    ]},
+    {section:'Colaboración',items:[
+      {id:'coil',label:'Espacio COIL',icon:'🌐'},
+      {id:'forum',label:'Foros',icon:'💬',badge:5},
+    ]},
+    {section:'Personal',items:[
+      {id:'gamification',label:'Gamificación',icon:'🏆'},
+      {id:'profile',label:'Mi Perfil',icon:'👤'},
+    ]},
+    {divider:true},
+    {special:'logout'}
+  ];
+  const menus = (role === 'student') ? studentMenus : adminMenus;
+  nav.innerHTML = menus.map(g => {
+    if(g.special === 'logout') return `<button class="nav-item" style="color:var(--rose)" onclick="doLogout()"><span class="ni-icon">🚪</span>Cerrar Sesión</button>`;
+    if(g.divider) return `<div class="nav-divider"></div>`;
+    return `<div class="nav-section">${g.section}</div>` + g.items.map(i => `
+      <button class="nav-item" id="nav-${i.id}" onclick="navTo('${i.id}')">
+        <span class="ni-icon">${i.icon}</span>${i.label}
+        ${i.badge?`<span class="nav-badge">${i.badge}</span>`:''}
+      </button>`).join('');
+  }).join('');
+}
+
+function navTo(pageId) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  const pg = document.getElementById('p-' + pageId);
+  if(pg) pg.classList.add('active');
+  const nb = document.getElementById('nav-' + pageId);
+  if(nb) nb.classList.add('active');
+  document.getElementById('sidebar').classList.remove('open');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function goHome() { navTo(currentUser?.role==='student'?'dashboard':'admin-dashboard'); }
+function toggleSidebar() { document.getElementById('sidebar').classList.toggle('open'); }
+function toggleView() {
+  if(currentUser.role === 'student') {
+    currentUser.role = 'editor';
+    buildNav('editor');
+    navTo('admin-dashboard');
+    document.getElementById('viewToggleBtn').textContent = '👁 Vista Estudiante';
+    toast('Vista de administrador activada','info');
+  } else {
+    currentUser.role = 'student';
+    buildNav('student');
+    navTo('dashboard');
+    document.getElementById('viewToggleBtn').textContent = '⚙ Vista Admin';
+    toast('Vista de estudiante activada','info');
+  }
+}
+
+/* ══ ADMIN DATA ══ */
+function initAdminData() {
+  renderActivityTable();
+  renderContentStatus();
+  renderModulesTable();
+  renderMediaGrid();
+  renderForums();
+  renderEvals();
+  renderUsers();
+  renderCases();
+  renderCoilActivities();
+  renderAnalytics();
+  renderFeatureToggles();
+  populateModuleSelects();
+  document.getElementById('dashWelcome').textContent = `Bienvenido, ${currentUser.name.split(' ')[0]} — ${new Date().toLocaleDateString('es-EC',{weekday:'long',year:'numeric',month:'long',day:'numeric'})}`;
+}
+
+function renderActivityTable() {
+  const acts = [
+    {action:'Video subido: Anatomía Cardíaca',user:'G. Guida',time:'Hace 10 min',status:'Publicado'},
+    {action:'Módulo editado: Fisiología Resp.',user:'J. Linares',time:'Hace 35 min',status:'Borrador'},
+    {action:'Caso ABP: Mirizzi Tipo III',user:'G. Guida',time:'Hace 2 h',status:'Revisión'},
+    {action:'Foro creado: Hesselbach',user:'J. Linares',time:'Hace 4 h',status:'Publicado'}
+  ];
+  document.getElementById('activityTbody').innerHTML = acts.map(a => `
+    <tr><td>${a.action}</td><td>${a.user}</td><td class="text-muted">${a.time}</td>
+    <td><span class="badge ${a.status==='Publicado'?'b-success':a.status==='Borrador'?'b-warning':'b-primary'}">${a.status}</span></td></tr>
+  `).join('');
+}
+
+function renderContentStatus() {
+  document.getElementById('contentStatus').innerHTML = modules.map(m => `
+    <div class="mb2">
+      <div class="flex just-b align-c mb1">
+        <span class="text-sm fw6">${m.title}</span>
+        <span class="badge ${m.status==='Publicado'?'b-success':'b-warning'}">${m.status}</span>
+      </div>
+      <div class="prog-track"><div class="prog-fill" style="width:${m.prog}%"></div></div>
+    </div>
+  `).join('') + `<div class="sep"></div><button class="btn btn-primary btn-sm w100" onclick="navTo('admin-modules')">+ Nuevo Módulo</button>`;
+}
+
+function renderModulesTable() {
+  document.getElementById('modulesTbody').innerHTML = modules.map((m,i) => `
+    <tr>
+      <td class="text-muted" style="font-family:var(--font-mono);font-size:.75rem">${String(i+1).padStart(2,'0')}</td>
+      <td><strong>${m.title}</strong></td>
+      <td><span class="badge b-primary">${m.cat}</span></td>
+      <td>${m.lessons} lecciones</td>
+      <td><span class="badge ${m.status==='Publicado'?'b-success':'b-warning'}">${m.status}</span></td>
+      <td>${m.author}</td>
+      <td><div class="flex gap1">
+        <button class="btn btn-ghost btn-sm" onclick="toast('Editando módulo: ${m.title}','info')">✏️</button>
+        <button class="btn btn-ghost btn-sm" onclick="toast('Vista previa: ${m.title}','info')">👁</button>
+        <button class="btn btn-ghost btn-sm" style="color:var(--rose)" onclick="if(confirm('¿Eliminar ${m.title}?'))toast('Módulo eliminado','success')">🗑</button>
+      </div></td>
+    </tr>
+  `).join('');
+}
+
+function renderMediaGrid() {
+  const html = mediaFiles.map(f => `
+    <div class="media-card">
+      <div class="media-thumb">${f.icon}</div>
+      <div class="media-info">
+        <div class="media-name" title="${f.name}">${f.name}</div>
+        <div class="media-meta"><span>${f.type}</span><span>${f.size}</span></div>
+      </div>
+      <div class="media-acts">
+        <button onclick="navigator.clipboard&&navigator.clipboard.writeText('https://med-coil.edu/media/${f.name}').then(()=>toast('Enlace copiado','success'))">🔗</button>
+        <button onclick="toast('Descargando ${f.name}','info')">⬇</button>
+        <button class="del" onclick="if(confirm('¿Eliminar?'))toast('Archivo eliminado','success')">🗑</button>
+      </div>
+    </div>
+  `).join('');
+  document.getElementById('mediaGrid').innerHTML = html;
+  ['Videos','Images','Docs','Slides','3d'].forEach(t => {
+    const key = t.toLowerCase().replace('videos','video').replace('images','image').replace('docs','doc').replace('slides','slides').replace('3d','3d');
+    const el = document.getElementById('mg'+t.replace('3d','3d').replace('Videos','Videos'));
+    if(el) el.innerHTML = mediaFiles.filter(f=>f.type===key).map(f=>`<div class="media-card"><div class="media-thumb">${f.icon}</div><div class="media-info"><div class="media-name">${f.name}</div><div class="media-meta"><span>${f.type}</span><span>${f.size}</span></div></div></div>`).join('');
+  });
+}
+
+function renderForums() {
+  const html = forums.map(f => `
+    <div class="thread">
+      <div class="thread-hd" onclick="this.nextElementSibling.classList.toggle('open')">
+        <div>
+          <div class="fw6">${f.title}</div>
+          <div class="text-sm text-muted">${f.institution} · ${f.module} · ${f.date}</div>
+        </div>
+        <div class="flex align-c gap1">
+          <span class="badge b-cyan">${f.replies} resp.</span>
+          <span>⌄</span>
+        </div>
+      </div>
+      <div class="thread-body">
+        <div class="flex align-c gap2 mb2">
+          <div class="av av-sm" style="background:var(--indigo)">${f.av}</div>
+          <div><strong>${f.author}</strong> · ${f.institution}</div>
+        </div>
+        <div class="reply">
+          <div class="av av-sm" style="background:var(--violet)">JL</div>
+          <div class="reply-content"><strong>Dr. Linares (LUZ):</strong> Excelente planteamiento. Desde LUZ abordamos esto con el Atlas de Testut. ¿Tienen bibliografía equivalente en PUCE-SD?</div>
+        </div>
+        <div class="flex gap1 mt2">
+          <input type="text" class="f-ctrl" placeholder="Escribe una respuesta...">
+          <button class="btn btn-primary btn-sm" onclick="toast('Respuesta publicada','success')">Responder</button>
+        </div>
+      </div>
+    </div>
+  `).join('');
+  document.getElementById('forumsContainer').innerHTML = html;
+  document.getElementById('studentForums').innerHTML = html;
+  document.getElementById('coilForums').innerHTML = html;
+}
+
+function renderEvals() {
+  const ev = [
+    {title:"Quiz Anatomía Cardíaca",type:"Quiz",mod:"Cardiovascular",status:"Publicado"},
+    {title:"OSCE Exploración Física Torácica",type:"OSCE",mod:"Cardiovascular",status:"Borrador"},
+    {title:"ABP: Síndrome de Mirizzi",type:"ABP",mod:"Hepatobiliar",status:"Publicado"},
+    {title:"Diagnóstico por imagen: TC abdomen",type:"Imagen",mod:"Digestivo",status:"Borrador"}
+  ];
+  document.getElementById('evalsTbody').innerHTML = ev.map(e => `
+    <tr>
+      <td><strong>${e.title}</strong></td>
+      <td><span class="badge b-primary">${e.type}</span></td>
+      <td>${e.mod}</td>
+      <td><span class="badge ${e.status==='Publicado'?'b-success':'b-warning'}">${e.status}</span></td>
+      <td><button class="btn btn-ghost btn-sm" onclick="toast('Editando evaluación','info')">✏️</button></td>
+    </tr>
+  `).join('');
+}
+
+function renderUsers() {
+  const users = [
+    {name:"Guido Nino Guida Acevedo",email:"gnguida@pucesd.edu.ec",inst:"PUCE-SD",role:"Super Admin",initials:"GN",color:"linear-gradient(135deg,#2563EB,#059669)"},
+    {name:"Dr. Johan Linares",email:"j.linares@luz.edu.ve",inst:"LUZ",role:"Editor",initials:"JL",color:"linear-gradient(135deg,#7C3AED,#059669)"},
+    {name:"Luis M. Mendoza",email:"lmmendoza@pucesd.edu.ec",inst:"PUCE-SD",role:"Editor",initials:"LM",color:"linear-gradient(135deg,#0891B2,#2563EB)"},
+    {name:"Carlos A. Herrera",email:"caherrera@pucesd.edu.ec",inst:"PUCE-SD",role:"Editor",initials:"CH",color:"linear-gradient(135deg,#D97706,#059669)"},
+    {name:"Ana García Montiel",email:"a.garcia@estudiante.luz.edu.ve",inst:"LUZ",role:"Estudiante",initials:"AG",color:"linear-gradient(135deg,#0891B2,#7C3AED)"}
+  ];
+  document.getElementById('usersTbody').innerHTML = users.map(u => `
+    <tr>
+      <td><div class="flex align-c gap2"><div class="av av-sm" style="background:${u.color}">${u.initials}</div><strong>${u.name}</strong></div></td>
+      <td><span class="text-muted">${u.email}</span></td>
+      <td><span class="badge b-gray">${u.inst}</span></td>
+      <td><span class="badge ${u.role==='Super Admin'?'b-warning':u.role==='Editor'?'b-success':'b-primary'}">${u.role}</span></td>
+      <td><button class="btn btn-ghost btn-sm" onclick="toast('Editando usuario','info')">✏️</button></td>
+    </tr>
+  `).join('');
+}
+
+function renderCases() {
+  const cases = [
+    {type:"ABP",title:"Síndrome de Mirizzi tipo III",desc:"Mujer 52 años, ictericia obstructiva, colédoco 12 mm. ¿Cuáles son las relaciones anatómicas del colédoco? ¿Qué estructura comprime el conducto?",mod:"Hepatobiliar"},
+    {type:"OSCE",title:"Exploración neurológica: déficit VII par craneal",desc:"Paciente con paresia facial periférica derecha. Describe la exploración anatómica del VII par y su correlato diagnóstico.",mod:"Sistema Nervioso"},
+    {type:"ABP",title:"Trauma penetrante abdominal — zona II retroperitoneal",desc:"Hombre 34 años, herida por arma blanca en flanco derecho. Identifica las estructuras anatómicas en riesgo por zonas retroperitoneales.",mod:"Digestivo"}
+  ];
+  const html = cases.map(c => `
+    <div class="case-card">
+      <span class="case-type ${c.type==='ABP'?'ct-abp':c.type==='OSCE'?'ct-osce':'ct-imagen'}">${c.type}</span>
+      <h4>${c.title}</h4>
+      <p>${c.desc}</p>
+      <div class="case-footer">
+        <span class="badge b-gray">📚 ${c.mod}</span>
+        <button class="btn btn-primary btn-sm" onclick="toast('Caso abierto en modo interactivo','info')">Resolver caso →</button>
+      </div>
+    </div>
+  `).join('');
+  const cc = document.getElementById('casesContainer');
+  const sc = document.getElementById('studentCasesContainer');
+  if(cc) cc.innerHTML = html;
+  if(sc) sc.innerHTML = html;
+}
+
+function renderCoilActivities() {
+  const acts = [
+    {icon:'🫀',title:'Neuroanatomía comparada PUCE-LUZ',desc:'Sesión binacional 90 min. Enfoques de ambas facultades en debate con estudiantes.',date:'14 May 2025 · 17:00 ECT'},
+    {icon:'🏆',title:'I Congreso Virtual COIL MorfoAnatomy',desc:'Presentación de proyectos estudiantiles. Evaluación por pares internacionales.',date:'28 May 2025 · 16:00 ECT'},
+    {icon:'🔬',title:'Cirugía mínimo acceso: bases morfológicas',desc:'Conferencia quirúrgica con correlatos anatómicos de LUZ. Casos reales anonimizados.',date:'11 Jun 2025 · 18:00 ECT'}
+  ];
+  document.getElementById('coilActivities').innerHTML = acts.map(a => `
+    <div class="card">
+      <div class="card-body">
+        <div style="font-size:2rem;margin-bottom:10px">${a.icon}</div>
+        <div class="fw6 mb1">${a.title}</div>
+        <div class="text-muted mb2">${a.desc}</div>
+        <div class="badge b-primary mb2">${a.date}</div>
+        <button class="btn btn-primary btn-sm w100" onclick="toast('Inscripción confirmada','success')">Inscribirme</button>
+      </div>
+    </div>
+  `).join('');
+}
+
+function renderAnalytics() {
+  document.getElementById('analyticsProgress').innerHTML = modules.map(m => `
+    <div class="mb2">
+      <div class="flex just-b align-c mb1"><span class="text-sm fw6">${m.title}</span><span class="text-sm text-muted">${m.prog}%</span></div>
+      <div class="prog-track"><div class="prog-fill" style="width:${m.prog}%"></div></div>
+    </div>
+  `).join('');
+  const top = [
+    {name:'Ana García',inst:'LUZ',xp:9500,level:'Nivel 8',initials:'AG',color:'linear-gradient(135deg,#0891B2,#7C3AED)'},
+    {name:'Carlos Mendoza',inst:'PUCE-SD',xp:8900,level:'Nivel 8',initials:'CM',color:'linear-gradient(135deg,#2563EB,#059669)'},
+    {name:'María Rodríguez',inst:'LUZ',xp:8200,level:'Nivel 7',initials:'MR',color:'linear-gradient(135deg,#D97706,#E11D48)'},
+    {name:'José Herrera',inst:'PUCE-SD',xp:7600,level:'Nivel 7',initials:'JH',color:'linear-gradient(135deg,#7C3AED,#059669)'}
+  ];
+  document.getElementById('topStudents').innerHTML = top.map((s,i) => `
+    <div class="flex align-c gap2 mb2 p1" style="padding:8px;border-radius:8px;background:var(--slate0)">
+      <span style="font-size:1.1rem">${['🥇','🥈','🥉','4️⃣'][i]}</span>
+      <div class="av av-sm" style="background:${s.color}">${s.initials}</div>
+      <div style="flex:1"><div class="text-sm fw6">${s.name}</div><div style="font-size:.7rem;color:var(--slate4)">${s.inst}</div></div>
+      <span class="badge b-primary">${s.xp.toLocaleString()} XP</span>
+    </div>
+  `).join('');
+}
+
+function renderFeatureToggles() {
+  const features = [
+    {key:'ia',label:'Tutor IA (Genflow)',desc:'Asistente médico para estudiantes en tiempo real',on:true},
+    {key:'gami',label:'Gamificación',desc:'Puntos, medallas y ranking PUCE-LUZ',on:true},
+    {key:'coil',label:'Colaboración COIL',desc:'Foros y grupos compartidos entre instituciones',on:true},
+    {key:'xapi',label:'Analíticas xAPI / LRS',desc:'Trazabilidad de interacciones académicas',on:true},
+    {key:'maint',label:'Modo Mantenimiento',desc:'Bloquea acceso estudiantil durante actualizaciones',on:false}
+  ];
+  document.getElementById('featureToggles').innerHTML = features.map(f => `
+    <div class="toggle-row" onclick="this.querySelector('.toggle').classList.toggle('on');toast('Funcionalidad actualizada','success')">
+      <div class="toggle ${f.on?'on':''}"></div>
+      <div class="tg-info"><div class="tg-title">${f.label}</div><div class="tg-desc">${f.desc}</div></div>
+    </div>
+  `).join('');
+}
+
+function populateModuleSelects() {
+  const opts = modules.map(m => `<option>${m.title}</option>`).join('');
+  ['editorModSel','ev-mod','for-mod'].forEach(id => { const el = document.getElementById(id); if(el) el.innerHTML = opts; });
+}
+
+/* ══ STUDENT DATA ══ */
+function initStudentData() {
+  const u = currentUser;
+  document.getElementById('wcName').textContent = u.name.split(' ')[0] + ' ' + u.name.split(' ')[1];
+  document.getElementById('wcSub').textContent = `Tienes 6 lecciones pendientes esta semana. Sistema Cardiovascular, módulo 3.`;
+  renderStudentModules();
+  renderCalendar();
+  renderAnnouncements();
+  renderGamification();
+  renderCoilEvents();
+}
+
+function renderStudentModules() {
+  document.getElementById('studentModulesGrid').innerHTML = `
+    <p class="text-muted mb2">Cada módulo integra el enfoque morfofuncional de PUCE-SD con el programa anatómico de LUZ.</p>
+    <div class="g2">
+    ${modules.map(m => `
+      <div class="card" style="cursor:pointer;transition:all .2s" onmouseover="this.style.boxShadow='var(--sh-md)'" onmouseout="this.style.boxShadow=''" onclick="toast('Abriendo módulo: ${m.title}','info')">
+        <div class="card-hd" style="border-left:4px solid var(--indigo)">
+          <div>
+            <div class="text-sm text-muted mb1">Módulo ${String(m.id).padStart(2,'0')}</div>
+            <div class="fw6" style="font-family:var(--font-head);font-style:italic">${m.title}</div>
+          </div>
+          <span class="badge ${m.status==='Publicado'?'b-success':'b-warning'}">${m.status}</span>
+        </div>
+        <div class="card-body">
+          <div class="flex just-b align-c mb1"><span class="text-sm text-muted">${m.lessons} lecciones</span><span class="text-sm text-muted">${m.prog}%</span></div>
+          <div class="prog-track mb2"><div class="prog-fill" style="width:${m.prog}%"></div></div>
+          <div class="flex gap1">
+            <span class="badge b-primary">PUCE-SD</span>
+            <span class="badge b-danger">LUZ</span>
+          </div>
+        </div>
+      </div>
+    `).join('')}
+    </div>`;
+}
+
+function renderCalendar() {
+  const evMay = [
+    {date:'14 May 2025 · 17:00 ECT',title:'Webinar: Neuroanatomía comparada PUCE-LUZ',meta:'Zoom · Acceso abierto'},
+    {date:'22 May 2025',title:'Entrega: Caso ABP Módulo 4',meta:'Plataforma · 23:59 ECT'},
+    {date:'28 May 2025 · 16:00 ECT',title:'I Congreso Virtual COIL MorfoAnatomy',meta:'Google Meet · Solo inscritos'}
+  ];
+  const evJun = [
+    {date:'5 Jun 2025',title:'Quiz Cardiorrespiratorio (cronometrado)',meta:'Plataforma · 20 min'},
+    {date:'11 Jun 2025 · 18:00 ECT',title:'Cirugía mínimo acceso: bases morfológicas',meta:'Zoom · Acceso abierto'},
+    {date:'25 Jun 2025 · 17:30 ECT',title:'Variantes anatómicas en imagen radiológica',meta:'Zoom · Acceso abierto'}
+  ];
+  document.getElementById('calEvents').innerHTML = evMay.map(e => `
+    <div class="cal-event"><div class="cal-date">${e.date}</div><div class="cal-title">${e.title}</div><div class="cal-meta">${e.meta}</div></div>
+  `).join('');
+  document.getElementById('calEventsJun').innerHTML = evJun.map(e => `
+    <div class="cal-event" style="border-color:var(--violet);background:var(--violet-l)"><div class="cal-date" style="color:var(--violet)">${e.date}</div><div class="cal-title">${e.title}</div><div class="cal-meta">${e.meta}</div></div>
+  `).join('');
+  document.getElementById('coilEvents').innerHTML = evMay.map(e => `
+    <div class="cal-event mb2">
+      <div class="cal-date">${e.date}</div>
+      <div class="cal-title">${e.title}</div>
+      <div class="flex just-b align-c mt1">
+        <span class="cal-meta">${e.meta}</span>
+        <button class="btn btn-sm btn-primary" onclick="this.textContent='✓ Inscrito';this.classList.add('btn-ghost');this.style.color='var(--emerald)';toast('Inscripción confirmada','success')">Inscribirme</button>
+      </div>
+    </div>
+  `).join('');
+}
+
+function renderAnnouncements() {
+  const ann = [
+    {title:'Inicio del Módulo 5: Sistema Urogenital — Semana del 19 de mayo',body:'El módulo de Sistema Urogenital y Reproductor estará disponible el lunes 19 de mayo. Revisa el material previo de retroperitoneo (Módulo 4) antes de comenzar.',date:'12 May 2025 · Dr. Guida Acevedo'},
+    {title:'Resultado del I Quiz COIL: felicitaciones al equipo Cardiovascular Alpha',body:'El equipo COIL con mayor puntaje acumulado en el Quiz de Sistema Cardiovascular es Cardiovascular Alpha (LUZ). Se publican resultados en la sección de gamificación.',date:'9 May 2025 · Coordinación COIL'},
+    {title:'Nueva bibliografía cargada: Atlas de Anatomía Humana — Sobotta 25.ª ed.',body:'Se ha cargado la edición digital en el repositorio de documentos. Disponible en Biblioteca de Medios → PDFs.',date:'5 May 2025 · J. Linares'}
+  ];
+  document.getElementById('announcementsContainer').innerHTML = ann.map(a => `
+    <div class="annc-card">
+      <div class="annc-hd"><div class="annc-title">${a.title}</div><span class="badge b-primary">Nuevo</span></div>
+      <div class="annc-body">${a.body}</div>
+      <div class="annc-meta">📅 ${a.date}</div>
+    </div>
+  `).join('');
+}
+
+function renderGamification() {
+  const badges = [
+    {icon:'🏅',name:'Primer Quiz',locked:false},
+    {icon:'🫀',name:'Cardio Master',locked:false},
+    {icon:'🧠',name:'Neuro Expert',locked:false},
+    {icon:'🌐',name:'COIL Pioneer',locked:false},
+    {icon:'🔬',name:'ABP Champion',locked:false},
+    {icon:'🎓',name:'Graduación',locked:true},
+    {icon:'⭐',name:'10 Módulos',locked:true},
+    {icon:'🏆',name:'Ranking #1',locked:true}
+  ];
+  document.getElementById('badgeGrid').innerHTML = badges.map(b => `
+    <div class="badge-item ${b.locked?'locked':''}">
+      <div class="bi-icon">${b.icon}</div>
+      <div class="bi-name">${b.name}</div>
+    </div>
+  `).join('');
+  const ranking = [
+    {n:1,name:'Ana García',inst:'LUZ',xp:9500,level:'Nv 8',initials:'AG',color:'linear-gradient(135deg,#0891B2,#7C3AED)'},
+    {n:2,name:'Carlos Mendoza',inst:'PUCE-SD',xp:8900,level:'Nv 8',initials:'CM',color:'linear-gradient(135deg,#2563EB,#059669)'},
+    {n:3,name:'María Rodríguez',inst:'LUZ',xp:8200,level:'Nv 7',initials:'MR',color:'linear-gradient(135deg,#D97706,#E11D48)'},
+    {n:4,name:'José Herrera',inst:'PUCE-SD',xp:7600,level:'Nv 7',initials:'JH',color:'linear-gradient(135deg,#7C3AED,#059669)'},
+    {n:5,name:'Laura Suárez',inst:'LUZ',xp:7100,level:'Nv 6',initials:'LS',color:'linear-gradient(135deg,#E11D48,#D97706)'}
+  ];
+  document.getElementById('rankingTbody').innerHTML = ranking.map(r => `
+    <tr>
+      <td>${['🥇','🥈','🥉','4','5'][r.n-1]}</td>
+      <td><div class="flex align-c gap2"><div class="av av-sm" style="background:${r.color}">${r.initials}</div>${r.name}</div></td>
+      <td><span class="badge b-gray">${r.inst}</span></td>
+      <td><strong>${r.xp.toLocaleString()}</strong></td>
+      <td><span class="badge b-purple">${r.level}</span></td>
+    </tr>
+  `).join('');
+}
+
+function renderCoilEvents() { /* Rendered by renderCalendar */ }
+
+function setupProfile() {
+  const u = currentUser;
+  document.getElementById('profileAv').style.background = u.color;
+  document.getElementById('profileAv').textContent = u.initials;
+  document.getElementById('profileName').textContent = u.name;
+  document.getElementById('profileRole').textContent = u.institution + ' · ' + getRoleLabel(u.role);
+  document.getElementById('profileNameInput').value = u.name;
+  document.getElementById('profileInstInput').value = u.institution;
+  document.getElementById('profileOrcidInput').value = u.orcid || '';
+  document.getElementById('profileEmailInput').value = u.email;
+  const isAdmin = u.role !== 'student';
+  document.getElementById('pstatMod').textContent = isAdmin ? '24' : '7';
+  document.getElementById('pstatXP').textContent = isAdmin ? '—' : '9,500';
+  document.getElementById('pstatPubs').textContent = isAdmin ? '12' : '2';
+  document.getElementById('certsContainer').innerHTML = `
+    <div class="flex align-c gap2 mb2" style="padding:10px;background:var(--emerald-l);border-radius:8px">
+      <span>🎓</span><div><div class="text-sm fw6">Módulo: Sistema Cardiovascular</div><div style="font-size:.72rem;color:var(--slate4)">Completado · May 2025</div></div>
+    </div>
+    <div class="flex align-c gap2" style="padding:10px;background:var(--indigo-l);border-radius:8px">
+      <span>🌐</span><div><div class="text-sm fw6">Actividad COIL: Cardiovascular Alpha</div><div style="font-size:.72rem;color:var(--slate4)">En progreso · Semestre 2025</div></div>
+    </div>
+  `;
+}
+
+/* ══ QUIZ ══ */
+function renderQuiz() {
+  const q = quizQuestions[quizIdx];
+  const pct = quizIdx / quizQuestions.length * 100;
+  document.getElementById('quizBar').style.width = pct + '%';
+  document.getElementById('quizContent').innerHTML = `
+    <div class="quiz-q">${q.q}</div>
+    <div class="quiz-ctx">${q.ctx}</div>
+    <div class="quiz-opts" id="qopts">
+      ${q.opts.map((o,i) => `<button class="qopt" onclick="answerQuiz(${i})">${o}</button>`).join('')}
+    </div>
+    <div class="quiz-fb" id="qfb"></div>
+    <div class="quiz-nav">
+      <span class="quiz-counter">Pregunta ${quizIdx+1} / ${quizQuestions.length}</span>
+      <button class="btn btn-primary btn-sm" id="qnext" onclick="nextQuestion()" disabled>Siguiente →</button>
+    </div>`;
+  quizAnswered = false;
+}
+
+function answerQuiz(i) {
+  if(quizAnswered) return;
+  quizAnswered = true;
+  const q = quizQuestions[quizIdx];
+  const opts = document.querySelectorAll('.qopt');
+  opts.forEach(o => o.disabled = true);
+  opts[q.correct].classList.add('correct');
+  const fb = document.getElementById('qfb');
+  if(i === q.correct) {
+    quizScore++;
+    fb.className = 'quiz-fb show ok';
+    fb.innerHTML = '✓ ' + q.ok;
+  } else {
+    opts[i].classList.add('wrong');
+    fb.className = 'quiz-fb show err';
+    fb.innerHTML = '✗ ' + q.err;
+  }
+  document.getElementById('qnext').disabled = false;
+  document.getElementById('quizScore').textContent = quizScore + ' correcta' + (quizScore!==1?'s':'');
+}
+
+function nextQuestion() {
+  quizIdx++;
+  if(quizIdx >= quizQuestions.length) {
+    document.getElementById('quizBar').style.width = '100%';
+    document.getElementById('quizContent').innerHTML = `
+      <div style="text-align:center;padding:28px 0">
+        <div style="font-size:3rem;margin-bottom:14px">${quizScore>=3?'🎉':'📚'}</div>
+        <div style="font-family:var(--font-head);font-size:1.5rem;font-style:italic;margin-bottom:8px">Quiz completado</div>
+        <div style="color:var(--slate5);margin-bottom:20px">${quizScore} de ${quizQuestions.length} correctas · ${Math.round(quizScore/quizQuestions.length*100)}%</div>
+        <button class="btn btn-primary" onclick="quizIdx=0;quizScore=0;renderQuiz();document.getElementById('quizScore').textContent='0 correctas'">Reintentar</button>
+      </div>`;
+    toast(`Quiz completado: ${quizScore}/${quizQuestions.length} correctas`, quizScore >= 3 ? 'success' : 'warning');
+  } else { renderQuiz(); }
+}
+
+/* ══ AI TUTOR ══ */
+const aiResponses = [
+  "El sistema cardiovascular está compuesto por el corazón, los vasos sanguíneos y la sangre. El corazón actúa como una bomba dual: el lado derecho maneja la circulación pulmonar y el izquierdo la sistémica.",
+  "Las vías del dolor siguen el tracto espinotalámico lateral (dolor y temperatura) y las columnas posteriores (tacto fino y propiocepción). Esta distinción tiene directa aplicación diagnóstica en el síndrome de Brown-Séquard.",
+  "El triángulo de Hesselbach tiene tres límites: el borde lateral del recto abdominal (medial), el ligamento inguinal (inferior) y los vasos epigástricos inferiores (lateral). La hernia directa protruye dentro de este triángulo, medial a los vasos.",
+  "La segmentación hepática de Couinaud divide el hígado en 8 segmentos funcionales basados en la distribución de la vena porta y las venas hepáticas. Esta división es fundamental para planificar resecciones hepáticas.",
+  "El nervio frénico (C3-C5 principalmente C4) inerva el diafragma. Un mnemónico clásico: C3, C4, C5 keep the diaphragm alive. Su lesión causa parálisis diafragmática ipsilateral visible en Rx como hemidiafragma elevado."
+];
+let aiIdx = 0;
+
+function studentAskAI() {
+  const input = document.getElementById('studentChatInput');
+  const log = document.getElementById('studentChatLog');
+  if(!input.value.trim()) return;
+  log.innerHTML += `<div class="chat-msg user"><strong>Tú:</strong> ${input.value}</div>`;
+  const q = input.value;
+  input.value = '';
+  log.scrollTop = log.scrollHeight;
+  setTimeout(() => {
+    const resp = aiResponses[aiIdx % aiResponses.length];
+    aiIdx++;
+    log.innerHTML += `<div class="chat-msg bot"><strong>Genflow:</strong> ${resp}</div>`;
+    log.scrollTop = log.scrollHeight;
+  }, 900);
+}
+
+/* ══ EDITOR ══ */
+function ec(cmd) { document.getElementById('lessonEditor').focus(); document.execCommand(cmd, false, null); }
+function ef(tag) { document.getElementById('lessonEditor').focus(); document.execCommand('formatBlock', false, tag); }
+function eLink() { const u = prompt('URL:'); if(u) { document.getElementById('lessonEditor').focus(); document.execCommand('createLink', false, u); } }
+function eTable() {
+  const h = `<table style="width:100%;border-collapse:collapse;margin:1rem 0"><tr style="background:var(--slate1)"><th style="border:1px solid var(--slate2);padding:8px">Col 1</th><th style="border:1px solid var(--slate2);padding:8px">Col 2</th></tr><tr><td style="border:1px solid var(--slate2);padding:8px">Dato 1</td><td style="border:1px solid var(--slate2);padding:8px">Dato 2</td></tr></table>`;
+  document.getElementById('lessonEditor').focus();
+  document.execCommand('insertHTML', false, h);
+}
+function insertVideo() {
+  const url = document.getElementById('videoUrl').value;
+  closeModal('m-insert-video');
+  if(url) {
+    let embed = url.includes('youtube') ? url.replace('watch?v=','embed/') : url;
+    document.getElementById('lessonEditor').focus();
+    document.execCommand('insertHTML', false, `<div style="margin:1rem 0"><iframe src="${embed}" frameborder="0" allowfullscreen></iframe></div>`);
+  }
+}
+function insertImg() {
+  const url = document.getElementById('imgUrl').value;
+  const alt = document.getElementById('imgAlt').value;
+  closeModal('m-insert-img');
+  if(url) {
+    document.getElementById('lessonEditor').focus();
+    document.execCommand('insertHTML', false, `<img src="${url}" alt="${alt}" style="max-width:100%;border-radius:8px">`);
+  }
+}
+function publishLesson() {
+  const t = document.getElementById('lessonTitle').value;
+  if(!t) return toast('El título es requerido','error');
+  toast(`Lección "${t}" publicada exitosamente`, 'success');
+}
+
+/* ══ MEDIA ══ */
+function triggerUpload() { document.getElementById('fileInput').click(); }
+function uzDrag(e, on) { e.preventDefault(); document.getElementById('uploadZone').classList.toggle('drag', on); }
+function uzDrop(e) { e.preventDefault(); uzDrag(e, false); handleFiles({target:{files:e.dataTransfer.files}}); }
+function handleFiles(e) {
+  const files = Array.from(e.target.files);
+  files.forEach(f => {
+    let type = 'doc';
+    if(f.type.startsWith('video')) type = 'video';
+    else if(f.type.startsWith('image')) type = 'image';
+    else if(f.name.match(/\.pptx?$/i)) type = 'slides';
+    else if(f.name.match(/\.glb|\.gltf$/i)) type = '3d';
+    const icons = {video:'🎬',image:'🖼️',doc:'📄',slides:'📊','3d':'🧊'};
+    mediaFiles.unshift({name:f.name,type,size:(f.size/1024/1024).toFixed(1)+' MB',icon:icons[type]||'📁'});
+  });
+  renderMediaGrid();
+  toast(`${files.length} archivo(s) subido(s) exitosamente`, 'success');
+}
+function filterMedia(v) {
+  v = v.toLowerCase();
+  document.querySelectorAll('.media-card').forEach(c => c.style.display = c.textContent.toLowerCase().includes(v) ? '' : 'none');
+}
+
+/* ══ CRUD ══ */
+function createModule() {
+  const t = document.getElementById('nm-title').value;
+  if(!t) return toast('El título es requerido', 'error');
+  modules.push({id:modules.length+1,title:t,cat:document.getElementById('nm-cat').value,lessons:0,status:document.getElementById('nm-status').value,author:currentUser.name.split(' ')[0]+' '+currentUser.name.split(' ')[1].charAt(0)+'.',prog:0});
+  renderModulesTable();
+  renderContentStatus();
+  populateModuleSelects();
+  closeModal('m-new-module');
+  toast('Módulo creado exitosamente', 'success');
+}
+function createEval() {
+  const t = document.getElementById('ev-title').value;
+  if(!t) return toast('Título requerido', 'error');
+  renderEvals();
+  closeModal('m-new-eval');
+  toast('Evaluación creada', 'success');
+}
+function createForum() {
+  const t = document.getElementById('for-title').value;
+  if(!t) return toast('Tema requerido', 'error');
+  forums.unshift({id:forums.length+1,title:t,author:currentUser.name.split(' ')[0]+' '+currentUser.name.split(' ')[1],av:currentUser.initials,institution:currentUser.institution,module:document.getElementById('for-mod').value,replies:0,views:0,date:'Ahora mismo'});
+  renderForums();
+  closeModal('m-new-forum');
+  toast('Foro creado exitosamente', 'success');
+}
+function createUser() {
+  const n = document.getElementById('nu-name').value;
+  if(!n) return toast('Nombre requerido', 'error');
+  renderUsers();
+  closeModal('m-new-user');
+  toast('Usuario creado y notificado por email', 'success');
+}
+function saveSettings() { toast('Configuración guardada correctamente', 'success'); }
+function saveProfile() { toast('Perfil actualizado exitosamente', 'success'); }
+
+/* ══ TABLE FILTER ══ */
+function filterTable(input, id) {
+  const v = input.value.toLowerCase();
+  document.querySelectorAll(`#${id} tbody tr`).forEach(r => r.style.display = r.textContent.toLowerCase().includes(v) ? '' : 'none');
+}
+
+/* ══ TABS ══ */
+function switchTab(btn, targetId) {
+  btn.parentElement.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  btn.closest('.card-body, .card').querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));
+  document.getElementById(targetId).classList.add('active');
+}
+
+/* ══ MODALS ══ */
+function openModal(id) { document.getElementById(id).classList.add('open'); }
+function closeModal(id) { document.getElementById(id).classList.remove('open'); }
+document.addEventListener('click', e => {
+  if(e.target.classList.contains('modal-overlay')) e.target.classList.remove('open');
+});
+
+/* ══ TOAST ══ */
+function toast(msg, type='info') {
+  const icons = {success:'✓',error:'✗',info:'ℹ',warning:'⚠'};
+  const c = document.getElementById('toasts');
+  const t = document.createElement('div');
+  t.className = `toast ${type}`;
+  t.innerHTML = `<span>${icons[type]||'ℹ'}</span> ${msg}`;
+  c.appendChild(t);
+  setTimeout(() => t.remove(), 3200);
+}
+
+/* ══ SEARCH ══ */
+function handleSearch(v) {
+  if(v.length < 2) return;
+  const matches = modules.filter(m => m.title.toLowerCase().includes(v.toLowerCase()));
+  if(matches.length) toast(`Encontrado: ${matches[0].title}`, 'info');
+}
+
+/* ══ INIT ══ */
+document.addEventListener('DOMContentLoaded', () => {
+  // Mobile handling
+  window.addEventListener('resize', () => {
+    if(window.innerWidth > 768) document.getElementById('sidebar').classList.remove('open');
+  });
+});
+
+// Init quiz on evaluation page
+document.addEventListener('click', e => {
+  if(e.target.closest('#p-evaluation') && !document.getElementById('quizContent').children.length) {
+    renderQuiz();
+  }
+});
+// Ensure quiz renders when page becomes active
+const origNavTo = navTo;
+window.navTo = function(pageId) {
+  origNavTo(pageId);
+  if(pageId === 'evaluation' || pageId === 'admin-evaluations') {
+    if(document.getElementById('quizContent') && !document.getElementById('quizContent').children.length) {
+      setTimeout(renderQuiz, 100);
+    }
+  }
+};
+</script>
+</body>
+</html>
